@@ -1,0 +1,30 @@
+{
+  "name": "bkmexpress",
+  "version": "0.0.1",
+  "description": "Nodejs api for bkm express payment system (Turkey)",
+  "main": "bkmexpress.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brendtumi/bkmexpress.git"
+  },
+  "keywords": [
+    "BKM",
+    "bkm express",
+    "turkey",
+    "payment"
+  ],
+  "author": "Tümay Çeber <tumayceber@gmail.com> (https://about.me/tumayceber)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brendtumi/bkmexpress/issues"
+  },
+  "homepage": "https://github.com/brendtumi/bkmexpress",
+  "dependencies": {
+    "lodash": "^3.6.0",
+    "moment": "^2.10.2",
+    "soap": "^0.8.0"
+  }
+}
