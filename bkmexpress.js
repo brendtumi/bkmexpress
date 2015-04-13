@@ -7,9 +7,7 @@
  */
 
 // dependencies
-var fs = require("fs"),
-    _ = require("lodash"),
-    moment = require("moment"),
+var _ = require("lodash")
     soap = require("soap");
 
 
