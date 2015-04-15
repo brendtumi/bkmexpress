@@ -1,9 +1,12 @@
 /**
  * Created by tumay on 13.04.2015.
  */
-var Utilities = require("./Utilities"),
+var path = require("path"),
+    Utilities = require("./Utilities"),
     Types = require("./Types"),
-    _ = require("lodash");
+    BkmExpressPaymentService = require("./BkmExpressPaymentService"),
+    _ = require("lodash"),
+    moment = require("moment");
 
 var InitPaymentInterface = module.exports = function (merchantId, successUrl, cancelUrl, saleAmount, cargoAmount, mobilSuccessURL, mobilCancelURL, requestSource, deviceType, osSource, userAgent) {
     if (!(this instanceof InitPaymentInterface)) {
@@ -40,8 +43,55 @@ InitPaymentInterface.prototype.verifyResponse = function (PaymentWSResponse) {
 
 };
 InitPaymentInterface.prototype.prepareHash = function (params) {
-
+    var datatoBeHashed = _.implode("", _.values(_.omit(params.initializePaymentWSRequest, ['instOpts', 's', 'ts', 'bank'])));
+    _.each(params.initializePaymentWSRequest.instOpts, function (bankInst) {
+        _.each(bankInst.bank, function (bank) {
+            datatoBeHashed += _.implode("", _.values(_.pick(bank, ['id', 'name', 'expBank'])));
+            _.each(bank.bins.bin,function(bin){
+                datatoBeHashed += bin.value;
+                _.each(bin.insts.inst, function (inst) {
+                    datatoBeHashed += _.implode("", _.values(_.pick(inst, ['nofInst', 'amountInst', 'cAmount', 'tAmount', 'cPaid1stInst', 'cAmount', 'expInst'])));
+                });
+            });
+        });
+    });
+    datatoBeHashed += params.initializePaymentWSRequest.ts;
+    return datatoBeHashed;
 };
-InitPaymentInterface.prototype.initPayment = function (wsdlLocation, banks) {
+InitPaymentInterface.prototype.initPayment = function (banks, key, wsdlLocation, callback) {
+    if (typeof wsdlLocation === "function") {
+        callback = wsdlLocation;
+        wsdlLocation = null;
+    }
+    wsdlLocation = wsdlLocation || path.normalize(__dirname + '/../bkm_static/BkmExpressPaymentService.wsdl');
 
+    var params = new Types.initializePayment();
+    params.initializePaymentWSRequest = new Types.initializePaymentWSRequest({
+        mId: this.merchantId,
+        sUrl: this.successUrl,
+        cUrl: this.cancelUrl,
+        sAmount: this.saleAmount,
+        cAmount: this.cargoAmount,
+        msUrl: this.mobilSuccessURL,
+        mcUrl: this.mobilCancelURL,
+        rSource: this.requestSource,
+        dType: this.deviceType,
+        osSource: this.osSource,
+        uAgent: this.userAgent
+    });
+    params.initializePaymentWSRequest.instOpts = banks;
+    params.initializePaymentWSRequest.ts = new moment().format("YYYYMMDD-HH:mm:ss");
+    params.initializePaymentWSRequest.s = Utilities.Sign(this.prepareHash(params), key);
+
+    //Utilities.inspect("timestamp", params.initializePaymentWSRequest.ts);
+    //Utilities.inspect("Signature", params.initializePaymentWSRequest.s);
+    //Utilities.inspect("params", params);
+
+    // Fix Soap
+    params["ns1:initializePaymentWSRequest"] = params.initializePaymentWSRequest;
+    delete params.initializePaymentWSRequest;
+    //////
+
+    var ws = new BkmExpressPaymentService(wsdlLocation);
+    ws.initializePayment(params, callback);
 };

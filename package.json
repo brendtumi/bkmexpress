@@ -4,7 +4,7 @@
   "description": "Nodejs api for bkm express payment system (Turkey)",
   "main": "bkmexpress.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "node test/index.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,10 @@
   "dependencies": {
     "lodash": "^3.6.0",
     "moment": "^2.10.2",
-    "soap": "^0.8.0"
+    "soap": "^0.8.0",
+    "ursa": "^0.8.4"
+  },
+  "devDependencies": {
+    "colors": "^1.0.3"
   }
 }

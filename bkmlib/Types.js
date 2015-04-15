@@ -4,147 +4,29 @@
 var _ = require("lodash");
 
 //region Variables
-/**
- * installment
- */
-var installment = function () {
-}
-/**
- * nofInst
- * @type Number
- */
-installment.prototype.nofInst = null;
-/**
- * amountInst
- * @type String
- */
-installment.prototype.amountInst = null;
-/**
- * cAmount
- * @type String
- */
-installment.prototype.cAmount = null;
-/**
- * tAmount
- * @type String
- */
-installment.prototype.tAmount = null;
-/**
- * cPaid1stInst
- * @type Boolean
- */
-installment.prototype.cPaid1stInst = null;
-/**
- * expInst
- * @type String
- */
-installment.prototype.expInst = null;
-
-/**
- * insts
- */
-var insts = function () {
-}
-/**
- * inst
- * @type installment[]
- */
-insts.prototype.inst = null;
-
-/**
- * bin
- */
-var bin = function () {
-}
-/**
- *
- * @type String
- */
-bin.prototype.value = null;
-/**
- *
- * @type anyType
- */
-bin.prototype.insts = null;
-/**
- *
- * @type installment[]
- */
-bin.prototype.inst = null;
-
-/**
- * bins
- */
-var bins = function () {
-}
-/**
- * bin
- * @type bin[]
- */
-bins.prototype.bin = null;
-
-/**
- * bank
- */
-var bank = function () {
-}
-/**
- * id
- * @type String
- */
-bank.prototype.id = null;
-/**
- * name
- * @type String
- */
-bank.prototype.name = null;
-/**
- * expBank
- * @type String
- */
-bank.prototype.expBank = null;
-/**
- * bins
- * @type anyType
- */
-bank.prototype.bins = null;
-/**
- * bin
- * @type bin[]
- */
-bank.prototype.bin = null;
-
-/**
- * instOpts
- */
-var instOpts = function () {
-}
-/**
- * bank
- * @type bank[]
- */
-instOpts.prototype.bank = null;
 
 /**
  * result
  */
 var result = function () {
-}
+    if (arguments.length === 1)
+        _.extend(this, arguments[0]);
+};
 /**
  * resultCode
  * @type Number
  */
-result.prototype.resultCode = null;
+result.prototype.resultCode = '';
 /**
  * resultMsg
  * @type String
  */
-result.prototype.resultMsg = null;
+result.prototype.resultMsg = '';
 /**
  * resultDet
  * @type String
  */
-result.prototype.resultDet = null;
+result.prototype.resultDet = '';
 
 //endregion
 
@@ -153,123 +35,136 @@ result.prototype.resultDet = null;
  * merchantWSBaseRequest
  */
 var merchantWSBaseRequest = function () {
-}
+    if (arguments.length === 1)
+        _.extend(this, arguments[0]);
+};
 
 /**
  * merchantWSBaseResponse
  */
 var merchantWSBaseResponse = function () {
-}
+    if (arguments.length === 1)
+        _.extend(this, arguments[0]);
+};
 /**
  * result
  * @type result
  */
-merchantWSBaseResponse.prototype.result = null;
+merchantWSBaseResponse.prototype.result = '';
 
 /**
  * initializePayment
  */
 var initializePayment = function () {
-}
+    if (!(this instanceof initializePayment)) {
+        return new (Function.prototype.bind.apply(initializePayment, arguments));
+    }
+    if (arguments.length === 1)
+        _.extend(this, arguments[0]);
+};
 /**
  * initializePaymentWSRequest
  */
-initializePayment.prototype.initializePaymentWSRequest = null;
+initializePayment.prototype.initializePaymentWSRequest = '';
 
 /**
  * initializePaymentResponse
  */
 var initializePaymentResponse = function () {
-}
+    if (arguments.length === 1)
+        _.extend(this, arguments[0]);
+};
 /**
  * initializePaymentWSResponse
  */
-initializePaymentResponse.prototype.initializePaymentWSResponse = null;
+initializePaymentResponse.prototype.initializePaymentWSResponse = '';
 
 /**
  * initializePaymentWSRequest
  * @extends merchantWSBaseRequest
  */
 var initializePaymentWSRequest = function () {
-}
+    if (arguments.length === 1)
+        _.extend(this, arguments[0]);
+};
 initializePaymentWSRequest.prototype = new merchantWSBaseRequest();
-initializePaymentWSRequest.prototype.constructor = initializePaymentWSRequest;
+//initializePaymentWSRequest.prototype.constructor = initializePaymentWSRequest;
 _.extend(initializePaymentWSRequest, merchantWSBaseRequest);
 /**
  * mId
  * @type String
  */
-initializePaymentWSRequest.prototype.mId = null;
+initializePaymentWSRequest.prototype.mId = '';
 /**
  * sUrl
  * @type String
  */
-initializePaymentWSRequest.prototype.sUrl = null;
+initializePaymentWSRequest.prototype.sUrl = '';
 /**
  * cUrl
  * @type String
  */
-initializePaymentWSRequest.prototype.cUrl = null;
+initializePaymentWSRequest.prototype.cUrl = '';
 /**
  * msUrl
  * @type String
  */
-initializePaymentWSRequest.prototype.msUrl = null;
+initializePaymentWSRequest.prototype.msUrl = '';
 /**
  * mcUrl
  * @type String
  */
-initializePaymentWSRequest.prototype.mcUrl = null;
+initializePaymentWSRequest.prototype.mcUrl = '';
 /**
  * rSource
  * @type String
  */
-initializePaymentWSRequest.prototype.rSource = null;
+initializePaymentWSRequest.prototype.rSource = '';
 /**
  * dType
  * @type String
  */
-initializePaymentWSRequest.prototype.dType = null;
+initializePaymentWSRequest.prototype.dType = '';
 /**
  * osSource
  * @type String
  */
-initializePaymentWSRequest.prototype.osSource = null;
+initializePaymentWSRequest.prototype.osSource = '';
 /**
  * uAgent
  * @type String
  */
-initializePaymentWSRequest.prototype.uAgent = null;
+initializePaymentWSRequest.prototype.uAgent = '';
 /**
  * sAmount
  * @type String
  */
-initializePaymentWSRequest.prototype.sAmount = null;
+initializePaymentWSRequest.prototype.sAmount = '';
 /**
  * cAmount
  * @type String
  */
-initializePaymentWSRequest.prototype.cAmount = null;
+initializePaymentWSRequest.prototype.cAmount = '';
 /**
  * instOpts
  * @type anyType
  */
-initializePaymentWSRequest.prototype.instOpts = null;
+initializePaymentWSRequest.prototype.instOpts = '';
 /**
  * bank
  * @type bank[]
  */
-initializePaymentWSRequest.prototype.bank = null;
+//initializePaymentWSRequest.prototype.bank = '';
 /**
  * ts
  * @type String
  */
-initializePaymentWSRequest.prototype.ts = null;
+initializePaymentWSRequest.prototype.ts = '';
 /**
  * s
  * @type String
  */
-initializePaymentWSRequest.prototype.s = null;
+initializePaymentWSRequest.prototype.s = '';
 
 
 /**
@@ -277,39 +172,34 @@ initializePaymentWSRequest.prototype.s = null;
  * @extends merchantWSBaseResponse
  */
 var initializePaymentWSResponse = function () {
-}
+    if (arguments.length === 1)
+        _.extend(this, arguments[0]);
+};
 initializePaymentWSResponse.prototype = new merchantWSBaseResponse();
-initializePaymentWSResponse.prototype.constructor = initializePaymentWSResponse;
+//initializePaymentWSResponse.prototype.constructor = initializePaymentWSResponse;
 _.extend(initializePaymentWSResponse, merchantWSBaseResponse);
 /**
  * t
  * @var String
  */
-initializePaymentWSResponse.prototype.t = null;
+initializePaymentWSResponse.prototype.t = '';
 /**
  * url
  * @var String
  */
-initializePaymentWSResponse.prototype.url = null;
+initializePaymentWSResponse.prototype.url = '';
 /**
  * ts
  * @var String
  */
-initializePaymentWSResponse.prototype.ts = null;
+initializePaymentWSResponse.prototype.ts = '';
 /**
  * s
  * @var String
  */
-initializePaymentWSResponse.prototype.s = null;
+initializePaymentWSResponse.prototype.s = '';
 //endregion
 
-
-module.exports.installment = installment;
-module.exports.insts = insts;
-module.exports.bin = bin;
-module.exports.bins = bins;
-module.exports.bank = bank;
-module.exports.instOpts = instOpts;
 module.exports.result = result;
 module.exports.merchantWSBaseRequest = merchantWSBaseRequest;
 module.exports.merchantWSBaseResponse = merchantWSBaseResponse;
