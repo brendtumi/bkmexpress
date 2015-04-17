@@ -1,7 +1,8 @@
 /**
  * Created by tumay on 13.04.2015.
  */
-var _ = require("lodash");
+var _ = require("lodash"),
+    Utilities = require("./Utilities");
 
 // NOTE: this is actually not required but its good to have one
 
@@ -173,6 +174,24 @@ initializePaymentWSResponse.prototype.ts = '';
  * @var String
  */
 initializePaymentWSResponse.prototype.s = '';
+
+var IncomingResultModel = function () {
+    if (arguments.length === 1)
+        _.extend(this, arguments[0]);
+};
+IncomingResultModel.prototype.t = "";
+IncomingResultModel.prototype.r = "";
+IncomingResultModel.prototype.posRef = "";
+IncomingResultModel.prototype.ts = "";
+IncomingResultModel.prototype.s = "";
+IncomingResultModel.prototype.xid = "";
+IncomingResultModel.prototype.md = "";
+IncomingResultModel.prototype.pData = "";
+IncomingResultModel.prototype.eKey1 = "";
+IncomingResultModel.prototype.eKey2 = "";
+IncomingResultModel.prototype.verify = function (bkmKey) {
+    return Utilities.Verify(bkmKey, this.s, this.t + this.posRef + this.xid + this.md + this.ts);
+};
 //endregion
 
 module.exports.merchantWSBaseRequest = merchantWSBaseRequest;
@@ -181,3 +200,4 @@ module.exports.initializePayment = initializePayment;
 module.exports.initializePaymentResponse = initializePaymentResponse;
 module.exports.initializePaymentWSRequest = initializePaymentWSRequest;
 module.exports.initializePaymentWSResponse = initializePaymentWSResponse;
+module.exports.IncomingResultModel = IncomingResultModel;

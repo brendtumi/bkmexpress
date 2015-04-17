@@ -4,9 +4,11 @@
 // dependencies
 var fs = require("fs"),
     util = require("util"),
+    path = require("path"),
     _ = require("lodash"),
     moment = require("moment"),
     ursa = require('ursa');
+require("colors");
 
 _.mixin({
     implode: function (glue, collection) {
@@ -27,28 +29,32 @@ _.mixin({
 
 var me = module.exports;
 
-me.inspect = function (tag, obj) {
+me.inspect = inspect = function (tag, obj) {
     console.log(tag.red, util.inspect(obj, {colors: true, depth: 10}));
 };
 
-me.Sign = function (data, key) {
+me.Sign = Sign = function (data, key) {
     var openssl = ursa.coerceKey(key);
     var SignedData = openssl.hashAndSign("sha256", data, 'utf8', 'base64');
     return SignedData;
 };
 
-me.Verify = function (signature, hashed, dataToVerify) {
+me.Verify = Verify = function (bkmKey, hashed, dataToVerify) {
+    // NOTE: Ursa not reading public key from a certificate so, i export public key with openssl x509 -pubkey -noout -in  bkm.pub > bkm.pem
+    var signature = bkmKey || ReadFile(path.normalize(__dirname + '/../bkm_static/bkm.pem'));
+
     var openssl = ursa.coerceKey(signature);
     var hashedSalt = new Buffer(hashed, 'base64');
     return openssl.hashAndVerify("sha256", dataToVerify, hashedSalt);
 };
 
-me.ReadFile = function (file) {
+me.ReadFile = ReadFile = function (file) {
     return fs.readFileSync(file, {encoding: "utf8"});
 };
 
-me.CalcTimeDiff = function (ts) {
+me.CalcTimeDiff = CalcTimeDiff = function (ts, diff) {
+    diff = diff || 60;
     ts = new moment(ts, "YYYYMMDD-HH:mm:ss").unix();
     var now = new moment().unix();
-    return ts > (now - 45) && ts < (now + 45);
+    return ts > (now - diff) && ts < (now + diff);
 };

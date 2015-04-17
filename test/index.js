@@ -45,10 +45,10 @@ var akbank = {
 };
 
 var paymentBankOptions = [akbank];
-var paymentSiteUrl = "http://localhost/tests/bkm_express_php/";
+var paymentSiteUrl = "http://localhost:3000/bkm_express";
 var paymentMerchantId = "7b928290-b6d2-469e-ac10-29eb36b8c1f6";
-var paymentSuccesUrl = paymentSiteUrl + "" + "success.php";
-var paymentCancelUrl = paymentSiteUrl + "" + "fail.php";
+var paymentSuccesUrl = paymentSiteUrl + "" + "/success";
+var paymentCancelUrl = paymentSiteUrl + "" + "/fail";
 var paymentSaleAmount = "15,00";
 var paymentCargoAmount = "";
 var paymentMobilSuccessURL = "mobil success url";

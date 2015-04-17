@@ -62,8 +62,6 @@ InitPaymentInterface.prototype.initPayment = function (banks, key, callback, wsd
     var self = this;
     // TODO: I did changed "tns" to "ns1" on wsdl's. This should be fixed when soap updated
     wsdlLocation = wsdlLocation || path.normalize(__dirname + '/../bkm_static/BkmExpressPaymentService.wsdl');
-    // NOTE: Ursa not reading public key from a certificate so, i export public key with openssl x509 -pubkey -noout -in  bkm.pub > bkm.pem
-    bkmKey = bkmKey || Utilities.ReadFile(path.normalize(__dirname + '/../bkm_static/bkm.pem'));
 
     var params = new Types.initializePayment();
     params.initializePaymentWSRequest = new Types.initializePaymentWSRequest({
