@@ -2,6 +2,7 @@
  * Created by tumay on 13.04.2015.
  */
 var _ = require("lodash"),
+    moment = require("moment"),
     Utilities = require("./Utilities");
 
 // NOTE: this is actually not required but its good to have one
@@ -190,7 +191,26 @@ IncomingResultModel.prototype.pData = "";
 IncomingResultModel.prototype.eKey1 = "";
 IncomingResultModel.prototype.eKey2 = "";
 IncomingResultModel.prototype.verify = function (bkmKey) {
-    return Utilities.Verify(bkmKey, this.s, this.t + this.posRef + this.xid + this.md + this.ts);
+    // FIXME: looks like there is a problem on here
+    var dataToVerify = this.t + this.posRef + this.xid + this.md + this.ts;
+    return Utilities.Verify(
+        bkmKey,
+        this.s,
+        dataToVerify
+    );
+};
+
+var RedirectModel = function () {
+    if (arguments.length === 1)
+        _.extend(this, arguments[0]);
+};
+RedirectModel.prototype.t = "";
+RedirectModel.prototype.ts = "";
+RedirectModel.prototype.s = "";
+RedirectModel.prototype.actionUrl = "";
+RedirectModel.prototype.sign = function (key) {
+    this.ts = new moment().format("YYYYMMDD-HH:mm:ss");
+    this.s = Utilities.Sign(this.t + this.ts, key);
 };
 //endregion
 
@@ -201,3 +221,4 @@ module.exports.initializePaymentResponse = initializePaymentResponse;
 module.exports.initializePaymentWSRequest = initializePaymentWSRequest;
 module.exports.initializePaymentWSResponse = initializePaymentWSResponse;
 module.exports.IncomingResultModel = IncomingResultModel;
+module.exports.RedirectModel = RedirectModel;

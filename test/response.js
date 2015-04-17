@@ -80,11 +80,11 @@ router.get('/bkm_express', function (req, res, next) {
 
     initPaymentAction.initPayment(paymentBankOptions, myKeyFile,
         function (response) {
-            var data = response.data;
+            var data = response.redirect;
             BKM.Utilities.inspect("initPayment response".cyan, response);
 
             var html = '<html><body onload="OnLoadEvent();">' +
-                '<form name="hiddenForm" id="hiddenForm" action="' + data.url + '" method="POST">' +
+                '<form name="hiddenForm" id="hiddenForm" action="' + data.actionUrl + '" method="POST">' +
                 '<input type="text" name="t" value="' + data.t + '">' +
                 '<input type="text" name="ts" value="' + data.ts + '">' +
                 '<input type="text" name="s" value="' + data.s + '">' +

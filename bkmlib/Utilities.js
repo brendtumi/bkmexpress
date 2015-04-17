@@ -33,6 +33,10 @@ me.inspect = inspect = function (tag, obj) {
     console.log(tag.red, util.inspect(obj, {colors: true, depth: 10}));
 };
 
+me.ReadFile = ReadFile = function (file) {
+    return fs.readFileSync(file, {encoding: "utf8"});
+};
+
 me.Sign = Sign = function (data, key) {
     var openssl = ursa.coerceKey(key);
     var SignedData = openssl.hashAndSign("sha256", data, 'utf8', 'base64');
@@ -46,10 +50,6 @@ me.Verify = Verify = function (bkmKey, hashed, dataToVerify) {
     var openssl = ursa.coerceKey(signature);
     var hashedSalt = new Buffer(hashed, 'base64');
     return openssl.hashAndVerify("sha256", dataToVerify, hashedSalt);
-};
-
-me.ReadFile = ReadFile = function (file) {
-    return fs.readFileSync(file, {encoding: "utf8"});
 };
 
 me.CalcTimeDiff = CalcTimeDiff = function (ts, diff) {

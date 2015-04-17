@@ -100,11 +100,14 @@ initPaymentAction.initPayment(paymentBankOptions, myKeyFile,
 this will return something like
 ```javascript
 { state: true,
-     data: 
-      { t: '4024f4c8-9ba0-4fb5-a000-d1209f18af9f',
-        url: 'https://preprod.bkmexpress.com.tr/BKMExpress/pub/purchase/init.bkm',
-        ts: '20150417-17:21:39',
-        s: 'n1hEuXh+jUZ0TXG1/hDBy8IQzu2G85xZZROVwYqfDcIB7jCEcjy45HcPsFKzVkT/gkmSflO9PeorbrDUgHcQGKBAOq1d2+I+4D6r1X33OqT/z9wMJVHST2edqRiv2ujJVSIMPRZwZtXmG+9WKPZnmsJGgol32Gzp1feCkLMArk3BryaMSKhOMn+NVx1bSzdFx82nZ3WVmLuGtDsUl6SeIPVu1JIr+8DbjA5/I60zz5dk8kpJV2PaBOMEKPm6l2gFidEYb3jc5y5cpxIaD3ei8ywnmSaO2ydq0hL6yrdx0d4tTQ46xZ5YJAtdWdBQNRK+zacMwYdGVx/7sF6sK6Ey8Q==' } }
+  redirect: 
+   { 
+     t: '04df4319-f1b2-4988-9cc9-a5e7a28b98f6',
+     actionUrl: 'https://preprod.bkmexpress.com.tr/BKMExpress/pub/purchase/init.bkm',
+     ts: '20150417-22:10:50',
+     s: 'h++5K0jdvcdJJgI3e+szQ9nDQjkwuH7ubTQdZz4e1klamZubNjpaLjtAWMmiOQPvO92201fq1zU+X3k9t/K9mi5tkNBbquamDu1uITxRzEcTAqm2VXH/1pZnJAbFsCC1OmTOyLIVor1VR80gKBrZo4dC7XwQVFtOq2/KuQIJcko='
+   } 
+}
 ```
 then you just need to redirect your client browser
 

@@ -88,7 +88,7 @@ InitPaymentInterface.prototype.initPayment = function (banks, key, callback, wsd
     // [Fix Soap]
 
     var ws = new BkmExpressPaymentService(wsdlLocation);
-    ws.initializePayment(params, function (err, result, raw, soapHeader) {
+    ws.initializePayment(params, function (err, result) {
         var response = {state: false};
         if (_.has(result, "initializePaymentWSResponse")) {
             if (result.initializePaymentWSResponse.result.resultCode === 0) {
@@ -96,7 +96,11 @@ InitPaymentInterface.prototype.initPayment = function (banks, key, callback, wsd
                 if (Utilities.CalcTimeDiff(PaymentWSResponse.ts)) {
                     if (self.verifyResponse(bkmKey, PaymentWSResponse)) {
                         response.state = true;
-                        response.data = PaymentWSResponse;
+                        response.redirect = new Types.RedirectModel({
+                            t: PaymentWSResponse.t,
+                            actionUrl: PaymentWSResponse.url
+                        });
+                        response.redirect.sign(key);
                     }
                     else
                         response.error = "Not valid response";
