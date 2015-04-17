@@ -10,19 +10,17 @@ var fs = require("fs"),
 
 _.mixin({
     implode: function (glue, collection) {
-
         glue = glue || '';
-
-        if (!_.isArray(collection)) return false;
-
-        if (collection.length == 1) return collection[0];
-
+        if (!_.isArray(collection))
+            return false;
+        if (collection.length == 1)
+            return collection[0];
         var returnString = '';
         for (var i = 0, len = collection.length; i < len; i++) {
-            if (i !== 0) returnString += glue;
+            if (i !== 0)
+                returnString += glue;
             returnString += collection[i];
         }
-
         return returnString;
     }
 });
@@ -39,8 +37,10 @@ me.Sign = function (data, key) {
     return SignedData;
 };
 
-me.Verify = function (signature, data) {
-    return;
+me.Verify = function (signature, hashed, dataToVerify) {
+    var openssl = ursa.coerceKey(signature);
+    var hashedSalt = new Buffer(hashed, 'base64');
+    return openssl.hashAndVerify("sha256", dataToVerify, hashedSalt);
 };
 
 me.ReadFile = function (file) {
@@ -48,5 +48,7 @@ me.ReadFile = function (file) {
 };
 
 me.CalcTimeDiff = function (ts) {
-    return;
+    ts = new moment(ts, "YYYYMMDD-HH:mm:ss").unix();
+    var now = new moment().unix();
+    return ts > (now - 45) && ts < (now + 45);
 };

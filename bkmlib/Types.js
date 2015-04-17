@@ -3,32 +3,7 @@
  */
 var _ = require("lodash");
 
-//region Variables
-
-/**
- * result
- */
-var result = function () {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
-};
-/**
- * resultCode
- * @type Number
- */
-result.prototype.resultCode = '';
-/**
- * resultMsg
- * @type String
- */
-result.prototype.resultMsg = '';
-/**
- * resultDet
- * @type String
- */
-result.prototype.resultDet = '';
-
-//endregion
+// NOTE: this is actually not required but its good to have one
 
 //region Requests & Responses
 /**
@@ -200,7 +175,6 @@ initializePaymentWSResponse.prototype.ts = '';
 initializePaymentWSResponse.prototype.s = '';
 //endregion
 
-module.exports.result = result;
 module.exports.merchantWSBaseRequest = merchantWSBaseRequest;
 module.exports.merchantWSBaseResponse = merchantWSBaseResponse;
 module.exports.initializePayment = initializePayment;

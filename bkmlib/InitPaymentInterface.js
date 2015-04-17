@@ -11,7 +11,6 @@ var path = require("path"),
 var InitPaymentInterface = module.exports = function (merchantId, successUrl, cancelUrl, saleAmount, cargoAmount, mobilSuccessURL, mobilCancelURL, requestSource, deviceType, osSource, userAgent) {
     if (!(this instanceof InitPaymentInterface)) {
         return new (Function.prototype.bind.apply(InitPaymentInterface, arguments));
-        //return new InitPaymentInterface(merchantId, successUrl, cancelUrl, saleAmount, cargoAmount, mobilSuccessURL, mobilCancelURL, requestSource, deviceType, osSource, userAgent);
     }
 
     this.merchantId = merchantId || "";
@@ -39,15 +38,16 @@ InitPaymentInterface.prototype.deviceType = null;
 InitPaymentInterface.prototype.osSource = null;
 InitPaymentInterface.prototype.userAgent = null;
 
-InitPaymentInterface.prototype.verifyResponse = function (PaymentWSResponse) {
-
+InitPaymentInterface.prototype.verifyResponse = function (bkmKey, PaymentWSResponse) {
+    var dataToVerify = PaymentWSResponse.t + PaymentWSResponse.url + PaymentWSResponse.ts;
+    return Utilities.Verify(bkmKey, PaymentWSResponse.s, dataToVerify);
 };
 InitPaymentInterface.prototype.prepareHash = function (params) {
     var datatoBeHashed = _.implode("", _.values(_.omit(params.initializePaymentWSRequest, ['instOpts', 's', 'ts', 'bank'])));
     _.each(params.initializePaymentWSRequest.instOpts, function (bankInst) {
         _.each(bankInst.bank, function (bank) {
             datatoBeHashed += _.implode("", _.values(_.pick(bank, ['id', 'name', 'expBank'])));
-            _.each(bank.bins.bin,function(bin){
+            _.each(bank.bins.bin, function (bin) {
                 datatoBeHashed += bin.value;
                 _.each(bin.insts.inst, function (inst) {
                     datatoBeHashed += _.implode("", _.values(_.pick(inst, ['nofInst', 'amountInst', 'cAmount', 'tAmount', 'cPaid1stInst', 'cAmount', 'expInst'])));
@@ -58,12 +58,12 @@ InitPaymentInterface.prototype.prepareHash = function (params) {
     datatoBeHashed += params.initializePaymentWSRequest.ts;
     return datatoBeHashed;
 };
-InitPaymentInterface.prototype.initPayment = function (banks, key, wsdlLocation, callback) {
-    if (typeof wsdlLocation === "function") {
-        callback = wsdlLocation;
-        wsdlLocation = null;
-    }
+InitPaymentInterface.prototype.initPayment = function (banks, key, callback, wsdlLocation, bkmKey) {
+    var self = this;
+    // TODO: I did changed "tns" to "ns1" on wsdl's. This should be fixed when soap updated
     wsdlLocation = wsdlLocation || path.normalize(__dirname + '/../bkm_static/BkmExpressPaymentService.wsdl');
+    // NOTE: Ursa not reading public key from a certificate so, i export public key with openssl x509 -pubkey -noout -in  bkm.pub > bkm.pem
+    bkmKey = bkmKey || Utilities.ReadFile(path.normalize(__dirname + '/../bkm_static/bkm.pem'));
 
     var params = new Types.initializePayment();
     params.initializePaymentWSRequest = new Types.initializePaymentWSRequest({
@@ -83,15 +83,41 @@ InitPaymentInterface.prototype.initPayment = function (banks, key, wsdlLocation,
     params.initializePaymentWSRequest.ts = new moment().format("YYYYMMDD-HH:mm:ss");
     params.initializePaymentWSRequest.s = Utilities.Sign(this.prepareHash(params), key);
 
-    //Utilities.inspect("timestamp", params.initializePaymentWSRequest.ts);
-    //Utilities.inspect("Signature", params.initializePaymentWSRequest.s);
-    //Utilities.inspect("params", params);
-
-    // Fix Soap
+    // [Fix Soap]
+    // FIXME: i will fix this problem on future releases
     params["ns1:initializePaymentWSRequest"] = params.initializePaymentWSRequest;
     delete params.initializePaymentWSRequest;
-    //////
+    // [Fix Soap]
 
     var ws = new BkmExpressPaymentService(wsdlLocation);
-    ws.initializePayment(params, callback);
+    ws.initializePayment(params, function (err, result, raw, soapHeader) {
+        var response = {state: false};
+        if (_.has(result, "initializePaymentWSResponse")) {
+            if (result.initializePaymentWSResponse.result.resultCode === 0) {
+                var PaymentWSResponse = new Types.initializePaymentResponse(_.omit(result.initializePaymentWSResponse, "result"));
+                if (Utilities.CalcTimeDiff(PaymentWSResponse.ts)) {
+                    if (self.verifyResponse(bkmKey, PaymentWSResponse)) {
+                        response.state = true;
+                        response.data = PaymentWSResponse;
+                    }
+                    else
+                        response.error = "Not valid response";
+                }
+                else
+                    response.error = "Timestamp not in range";
+            }
+            else {
+                response.error = result.initializePaymentWSResponse.result.resultMsg;
+                response.errorCode = result.initializePaymentWSResponse.result.resultCode;
+            }
+        }
+        else {
+            response.error = "SOAP Error";
+            response.soap = {
+                error: err,
+                result: result
+            };
+        }
+        callback(response);
+    });
 };

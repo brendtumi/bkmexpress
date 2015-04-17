@@ -2,8 +2,6 @@
  * Created by tumay on 13.04.2015.
  */
 var Utilities = require("./Utilities"),
-    Types = require("./Types"),
-    _ = require("lodash"),
     soap = require("soap");
 
 var BkmExpressPaymentService = module.exports = function (wsdl) {
@@ -21,12 +19,14 @@ BkmExpressPaymentService.prototype.initializePayment = function (params, callbac
         }
     };
     soap.createClient(this.wsdl, wsdlOptions, function (err, client) {
-        //Utilities.inspect("params",params)
-        //Utilities.inspect("describe",client.describe(), {colors: true, depth: 10})
         client.initializePayment(params, callback, {strictSSL: false});
+
+        /*
+        // NOTE: uncomment if you want to see SOAP xml
         process.nextTick(function () {
             //Utilities.inspect("lastMessage",client.lastMessage);
-            //Utilities.inspect("lastRequest", client.lastRequest);
+            Utilities.inspect("lastRequest", client.lastRequest);
         });
+        */
     });
 };

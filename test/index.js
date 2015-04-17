@@ -4,6 +4,7 @@ process.on('uncaughtException', function (err) {
 });
 
 // require
+var path = require("path");
 require("colors");
 var BKM = require("../bkmexpress");
 
@@ -71,10 +72,10 @@ var initPaymentAction = new BKM.InitPaymentInterface(
     paymentOsSource,
     paymentUserAgent);
 
-initPaymentAction.initPayment(
-    paymentBankOptions,
-    BKM.Utilities.ReadFile(require("path").normalize(__dirname + "/../bkm_static/bkm_client_sign_certificate_test.pem")
-    ),
-    function (err, result, raw, soapHeader) {
-        BKM.Utilities.inspect("initPayment response".cyan, result)
-    });
+var myKeyFile = BKM.Utilities.ReadFile(path.normalize(__dirname + "/../bkm_static/bkm_client_sign_certificate_test.pem"));
+
+initPaymentAction.initPayment(paymentBankOptions, myKeyFile,
+    function () {
+        BKM.Utilities.inspect("initPayment response".cyan, arguments);
+    }
+);
