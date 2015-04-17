@@ -1,7 +1,7 @@
 # BKM Express [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url]
 > BKM Express payment system api (Turkey) for node.js
 
-### Not ready yet!! Comning soon, like 1-2 day.
+### Not ready yet!! Coming soon, like 1-2 days.
 Node.js api for [BKM Express](https://www.bkmexpress.com.tr)
 
 ## Install
