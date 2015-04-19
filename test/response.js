@@ -98,6 +98,18 @@ router.get('/bkm_express', function (req, res, next) {
         }
     );
 });
+router.all('/bkm_express/confirmation', function (req, res, next) {
+    var IncomingResult = new BKM.Types.IncomingResultModel(req.body);
+    var valid = {
+        time: BKM.Utilities.CalcTimeDiff(req.body.ts),
+        sign: IncomingResult.verify(null)
+    };
+    res.send({
+        valid: valid,
+        query: req.query,
+        body: req.body
+    });
+});
 router.all('/bkm_express/success', function (req, res, next) {
     var IncomingResult = new BKM.Types.IncomingResultModel(req.body);
     var valid = {
