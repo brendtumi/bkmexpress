@@ -1,13 +1,11 @@
 # BKM Express [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url]
 > BKM Express payment system api (Turkey) for node.js
 
-### Not ready yet!! Coming soon, like 1-2 days.
+### Not fully tested yet, use your own risk.
 Node.js api for [BKM Express](https://www.bkmexpress.com.tr)
 
 ## Install
-
 Install with [npm](http://github.com/isaacs/npm):
-
 ```
  npm install bkmexpress
 ```
@@ -16,6 +14,8 @@ Install with [npm](http://github.com/isaacs/npm):
 ```javascript
 var BKM = require("bkmexpress");
 ```
+> **You can find full express.js example in [example/response.js](example/response.js)**
+
 ### initPaymentAction (Start payment)
 Create your bank and installment options
 ```javascript
@@ -69,7 +69,6 @@ var paymentDeviceType = "3";
 var paymentOsSource = "4.4.2";
 var paymentUserAgent = "2.0";
 
-
 var initPaymentAction = new BKM.InitPayment(
     paymentMerchantId,
     paymentSuccesUrl,
@@ -88,6 +87,7 @@ Get your private key (You should share your public key with BKM first)
 ```javascript
 var myKeyFile = BKM.Utilities.ReadFile("bkm_client_sign_certificate_test.pem");
 ```
+
 initPaymentAction.initPayment(paymentBankOptions , myKeyFile, callback)
 ```javascript
 initPaymentAction.initPayment(paymentBankOptions, myKeyFile,
@@ -109,11 +109,10 @@ this will return something like
    } 
 }
 ```
-then you just need to redirect your client browser
 
+then you just need to redirect your client browser.
 
 ## Contributors
-
 * Author: [Tümay Çeber](https://github.com/brendtumi)
 
 [bkm-url]: https://www.bkmexpress.com.tr

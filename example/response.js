@@ -78,6 +78,7 @@ router.get('/bkm_express', function (req, res, next) {
         paymentOsSource,
         paymentUserAgent);
 
+    // NOTE: Use your own client key
     var myKeyFile = BKM.Utilities.ReadFile(path.normalize(__dirname + "/../bkm_static/bkm_client_sign_certificate_test.pem"));
 
     initPaymentAction.initPayment(paymentBankOptions, myKeyFile,
@@ -97,15 +98,18 @@ router.get('/bkm_express', function (req, res, next) {
                 '</script></body></html>';
 
             res.send(html);
-        }
+        },
+        null,
+        null // NOTE: Use your own bkm key in here
     );
 });
+
 // NOTE: This confirmation url should be set on BKM express, but return values are same as success
 router.all('/bkm_express/confirmation', function (req, res, next) {
     var IncomingResult = new BKM.Types.IncomingResultModel(req.body);
     var valid = {
         time: BKM.Utilities.CalcTimeDiff(req.body.ts),
-        sign: IncomingResult.verify(null)
+        sign: IncomingResult.verify(null) // NOTE: Use your own bkm key in here
     };
     res.send({
         valid: valid,
@@ -113,11 +117,12 @@ router.all('/bkm_express/confirmation', function (req, res, next) {
         body: req.body
     });
 });
+
 router.all('/bkm_express/success', function (req, res, next) {
     var IncomingResult = new BKM.Types.IncomingResultModel(req.body);
     var valid = {
         time: BKM.Utilities.CalcTimeDiff(req.body.ts),
-        sign: IncomingResult.verify(null)
+        sign: IncomingResult.verify(null) // NOTE: Use your own bkm key in here
     };
     res.send({
         valid: valid,
@@ -125,11 +130,12 @@ router.all('/bkm_express/success', function (req, res, next) {
         body: req.body
     });
 });
+
 router.all('/bkm_express/fail', function (req, res, next) {
     var IncomingResult = new BKM.Types.IncomingResultModel(req.body);
     var valid = {
         time: BKM.Utilities.CalcTimeDiff(req.body.ts),
-        sign: IncomingResult.verify(null)
+        sign: IncomingResult.verify(null) // NOTE: Use your own bkm key in here
     };
     res.send({
         valid: valid,
@@ -166,17 +172,21 @@ var virtualPos = {
 // NOTE: We are creating this function, so we can dynamically create an order id in some route, like in "Initiate payment"
 function OrderIDgeneretor() {
     return "OR" + Math.random().toString();
-};
-
+}
 BKM.InitMerchantInfo(
     virtualPos,
     OrderIDgeneretor,
+    // NOTE: Use your own path
     "/bkm_express/wsdl/",
+    // NOTE: You can change .wdsl file if you needed, just give absolute path
     null,
+    // NOTE: Use your own address
     "http://localhost:3000/bkm_express/wsdl/",
-    BKM.Utilities.ReadFile(path.normalize(__dirname + '/../bkm_static/bkm_client_sign_certificate_test.pub')),
+    // NOTE: Use your own client and bkm key
+    BKM.Utilities.ReadFile(path.normalize(__dirname + '/../bkm_static/bkm.pem')),
     BKM.Utilities.ReadFile(path.normalize(__dirname + '/../bkm_static/bkm_client_sign_certificate_test.pem')),
     function (middleware) {
+        // NOTE: Use your own path
         router.all("/bkm_express/wsdl/*", middleware);
     }
 );
