@@ -77,5 +77,6 @@ var myKeyFile = BKM.Utilities.ReadFile(path.normalize(__dirname + "/../bkm_stati
 initPaymentAction.initPayment(paymentBankOptions, myKeyFile,
     function () {
         BKM.Utilities.inspect("initPayment response".cyan, arguments);
+        process.exit();
     }
 );
