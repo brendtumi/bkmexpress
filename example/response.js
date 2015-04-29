@@ -7,14 +7,16 @@ var path = require('path');
 var express = require('express');
 var router = express.Router();
 
-var path = require("path");
 var BKM = require("../bkmexpress");
 
 var app = express();
+console.log("Start");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(router);
 
+
+// NOTE: Initiate payment
 router.get('/bkm_express', function (req, res, next) {
     var akbank = {
         "bank": [{
@@ -63,7 +65,7 @@ router.get('/bkm_express', function (req, res, next) {
     var paymentOsSource = "4.4.2";
     var paymentUserAgent = "2.0";
 
-    var initPaymentAction = new BKM.InitPaymentInterface(
+    var initPaymentAction = new BKM.InitPayment(
         paymentMerchantId,
         paymentSuccesUrl,
         paymentCancelUrl,
@@ -98,6 +100,7 @@ router.get('/bkm_express', function (req, res, next) {
         }
     );
 });
+// NOTE: This confirmation url should be set on BKM express, but return values are same as success
 router.all('/bkm_express/confirmation', function (req, res, next) {
     var IncomingResult = new BKM.Types.IncomingResultModel(req.body);
     var valid = {
@@ -134,6 +137,49 @@ router.all('/bkm_express/fail', function (req, res, next) {
         body: req.body
     });
 });
+
+// NOTE: This is settings for merchant info SOAP server. You can keep this on your config file, except #orderId# every things is static
+var virtualPos = {
+    default: '0046',
+    vpos: {
+        "0046": {
+            posUrl: "https://testsanalpos.est.com.tr/servlet/cc5ApiServer_akbank",
+            posUid: "bkmapi",
+            posPwd: "TEST1234",
+            mpiUrl: "https://testsanalpos.est.com.tr/servlet/est3Dgate_akbank",
+            mpiUid: "bkmapi",
+            mpiPwd: "TEST1234",
+            md: "m1",
+            xid: "x1",
+            cIp: "88.255.225.25",
+            extra: {
+                ClientId: "100111222",
+                storekey: "TEST1234",
+                orderId: "#orderId#"
+            },
+            is3ds: true,
+            is3dsFDec: true
+        }
+    }
+};
+// NOTE: Should be over express because it will return router for SOAP server
+// NOTE: We are creating this function, so we can dynamically create an order id in some route, like in "Initiate payment"
+function OrderIDgeneretor() {
+    return "OR" + Math.random().toString();
+};
+
+BKM.InitMerchantInfo(
+    virtualPos,
+    OrderIDgeneretor,
+    "/bkm_express/wsdl/",
+    null,
+    "http://localhost:3000/bkm_express/wsdl/",
+    BKM.Utilities.ReadFile(path.normalize(__dirname + '/../bkm_static/bkm_client_sign_certificate_test.pub')),
+    BKM.Utilities.ReadFile(path.normalize(__dirname + '/../bkm_static/bkm_client_sign_certificate_test.pem')),
+    function (middleware) {
+        router.all("/bkm_express/wsdl/*", middleware);
+    }
+);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

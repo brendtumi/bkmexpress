@@ -70,7 +70,7 @@ var paymentOsSource = "4.4.2";
 var paymentUserAgent = "2.0";
 
 
-var initPaymentAction = new BKM.InitPaymentInterface(
+var initPaymentAction = new BKM.InitPayment(
     paymentMerchantId,
     paymentSuccesUrl,
     paymentCancelUrl,

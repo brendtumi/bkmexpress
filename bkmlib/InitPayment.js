@@ -8,9 +8,9 @@ var path = require("path"),
     _ = require("lodash"),
     moment = require("moment");
 
-var InitPaymentInterface = module.exports = function (merchantId, successUrl, cancelUrl, saleAmount, cargoAmount, mobilSuccessURL, mobilCancelURL, requestSource, deviceType, osSource, userAgent) {
-    if (!(this instanceof InitPaymentInterface)) {
-        return new (Function.prototype.bind.apply(InitPaymentInterface, arguments));
+var InitPayment = module.exports = function (merchantId, successUrl, cancelUrl, saleAmount, cargoAmount, mobilSuccessURL, mobilCancelURL, requestSource, deviceType, osSource, userAgent) {
+    if (!(this instanceof InitPayment)) {
+        return new (Function.prototype.bind.apply(InitPayment, arguments));
     }
 
     this.merchantId = merchantId || "";
@@ -26,23 +26,23 @@ var InitPaymentInterface = module.exports = function (merchantId, successUrl, ca
     this.userAgent = userAgent || "";
 };
 
-InitPaymentInterface.prototype.merchantId = null;
-InitPaymentInterface.prototype.successUrl = null;
-InitPaymentInterface.prototype.cancelUrl = null;
-InitPaymentInterface.prototype.saleAmount = null;
-InitPaymentInterface.prototype.cargoAmount = null;
-InitPaymentInterface.prototype.mobilSuccessURL = null;
-InitPaymentInterface.prototype.mobilCancelURL = null;
-InitPaymentInterface.prototype.requestSource = null;
-InitPaymentInterface.prototype.deviceType = null;
-InitPaymentInterface.prototype.osSource = null;
-InitPaymentInterface.prototype.userAgent = null;
+InitPayment.prototype.merchantId = null;
+InitPayment.prototype.successUrl = null;
+InitPayment.prototype.cancelUrl = null;
+InitPayment.prototype.saleAmount = null;
+InitPayment.prototype.cargoAmount = null;
+InitPayment.prototype.mobilSuccessURL = null;
+InitPayment.prototype.mobilCancelURL = null;
+InitPayment.prototype.requestSource = null;
+InitPayment.prototype.deviceType = null;
+InitPayment.prototype.osSource = null;
+InitPayment.prototype.userAgent = null;
 
-InitPaymentInterface.prototype.verifyResponse = function (bkmKey, PaymentWSResponse) {
+InitPayment.prototype.verifyResponse = function (bkmPublicKey, PaymentWSResponse) {
     var dataToVerify = PaymentWSResponse.t + PaymentWSResponse.url + PaymentWSResponse.ts;
-    return Utilities.Verify(bkmKey, PaymentWSResponse.s, dataToVerify);
+    return Utilities.Verify(bkmPublicKey, PaymentWSResponse.s, dataToVerify);
 };
-InitPaymentInterface.prototype.prepareHash = function (params) {
+InitPayment.prototype.prepareHash = function (params) {
     var datatoBeHashed = _.implode("", _.values(_.omit(params.initializePaymentWSRequest, ['instOpts', 's', 'ts', 'bank'])));
     _.each(params.initializePaymentWSRequest.instOpts, function (bankInst) {
         _.each(bankInst.bank, function (bank) {
@@ -58,7 +58,7 @@ InitPaymentInterface.prototype.prepareHash = function (params) {
     datatoBeHashed += params.initializePaymentWSRequest.ts;
     return datatoBeHashed;
 };
-InitPaymentInterface.prototype.initPayment = function (banks, key, callback, wsdlLocation, bkmKey) {
+InitPayment.prototype.initPayment = function (banks, merchantPrivateKey, callback, wsdlLocation, bkmPublicKey) {
     var self = this;
     // TODO: I did changed "tns" to "ns1" on wsdl's. This should be fixed when soap updated
     wsdlLocation = wsdlLocation || path.normalize(__dirname + '/../bkm_static/BkmExpressPaymentService.wsdl');
@@ -79,7 +79,7 @@ InitPaymentInterface.prototype.initPayment = function (banks, key, callback, wsd
     });
     params.initializePaymentWSRequest.instOpts = banks;
     params.initializePaymentWSRequest.ts = new moment().format("YYYYMMDD-HH:mm:ss");
-    params.initializePaymentWSRequest.s = Utilities.Sign(this.prepareHash(params), key);
+    params.initializePaymentWSRequest.s = Utilities.Sign(this.prepareHash(params), merchantPrivateKey);
 
     // [Fix Soap]
     // FIXME: i will fix this problem on future releases
@@ -94,13 +94,13 @@ InitPaymentInterface.prototype.initPayment = function (banks, key, callback, wsd
             if (result.initializePaymentWSResponse.result.resultCode === 0) {
                 var PaymentWSResponse = new Types.initializePaymentResponse(_.omit(result.initializePaymentWSResponse, "result"));
                 if (Utilities.CalcTimeDiff(PaymentWSResponse.ts)) {
-                    if (self.verifyResponse(bkmKey, PaymentWSResponse)) {
+                    if (self.verifyResponse(bkmPublicKey, PaymentWSResponse)) {
                         response.state = true;
                         response.redirect = new Types.RedirectModel({
                             t: PaymentWSResponse.t,
                             actionUrl: PaymentWSResponse.url
                         });
-                        response.redirect.sign(key);
+                        response.redirect.sign(merchantPrivateKey);
                     }
                     else
                         response.error = "Not valid response";

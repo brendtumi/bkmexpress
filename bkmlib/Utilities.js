@@ -39,17 +39,27 @@ me.ReadFile = ReadFile = function (file) {
 
 me.Sign = Sign = function (data, key) {
     var openssl = ursa.coerceKey(key);
-    var SignedData = openssl.hashAndSign("sha256", data, 'utf8', 'base64');
-    return SignedData;
+    try {
+        return openssl.hashAndSign("sha256", data, 'utf8', 'base64');
+    }
+    catch (e) {
+        inspect("Sign Error", e);
+        return false;
+    }
 };
 
 me.Verify = Verify = function (bkmKey, hashed, dataToVerify) {
     // NOTE: Ursa not reading public key from a certificate so, i export public key with openssl x509 -pubkey -noout -in  bkm.pub > bkm.pem
     var signature = bkmKey || ReadFile(path.normalize(__dirname + '/../bkm_static/bkm.pem'));
-
     var openssl = ursa.coerceKey(signature);
     var hashedSalt = new Buffer(hashed, 'base64');
-    return openssl.hashAndVerify("sha256", dataToVerify, hashedSalt);
+    try {
+        return openssl.hashAndVerify("sha256", dataToVerify, hashedSalt);
+    }
+    catch (e) {
+        inspect("Verify Error", e);
+        return false;
+    }
 };
 
 me.CalcTimeDiff = CalcTimeDiff = function (ts, diff) {

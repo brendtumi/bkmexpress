@@ -25,7 +25,7 @@
   "dependencies": {
     "lodash": "^3.6.0",
     "moment": "^2.10.2",
-    "soap": "^0.8.0",
+    "soap-express": "git+https://github.com/brendtumi/node-soap-express.git",
     "ursa": "^0.8.4"
   },
   "devDependencies": {

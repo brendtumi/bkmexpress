@@ -2,7 +2,7 @@
  * Created by tumay on 13.04.2015.
  */
 var Utilities = require("./Utilities"),
-    soap = require("soap");
+    soap = require("soap-express");
 
 var BkmExpressPaymentService = module.exports = function (wsdl) {
     if (!(this instanceof BkmExpressPaymentService)) {
