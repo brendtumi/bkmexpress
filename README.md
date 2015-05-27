@@ -16,6 +16,8 @@ var BKM = require("bkmexpress");
 ```
 > **You can find full express.js example in [example/response.js](example/response.js)**
 
+> **How to debug?** Set environment DEBUG=bkmexpress ([more info](https://www.npmjs.com/package/debug))
+
 ### initPaymentAction (Start payment)
 Create your bank and installment options
 ```javascript

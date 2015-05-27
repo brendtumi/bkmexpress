@@ -7,6 +7,7 @@ var fs = require("fs"),
     path = require("path"),
     _ = require("lodash"),
     moment = require("moment"),
+    debug = require("debug")("bkmexpress"),
     ursa = require('ursa');
 require("colors");
 
@@ -30,7 +31,7 @@ _.mixin({
 var me = module.exports;
 
 me.inspect = inspect = function (tag, obj) {
-    console.log(tag.red, util.inspect(obj, {colors: true, depth: 10}));
+    debug(tag, util.inspect(obj, {colors: true, depth: 10}));
 };
 
 me.ReadFile = ReadFile = function (file) {

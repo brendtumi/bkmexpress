@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/brendtumi/bkmexpress",
   "dependencies": {
+    "debug": "^2.2.0",
     "lodash": "^3.6.0",
     "moment": "^2.10.2",
     "soap-express": "^1.0.0",
