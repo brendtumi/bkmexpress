@@ -26,7 +26,7 @@
     "debug": "^2.2.0",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
-    "soap-express": "^1.0.2",
+    "soap-express": "1.0.1",
     "ursa": "^0.9.1"
   },
   "devDependencies": {
