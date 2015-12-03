@@ -88,6 +88,7 @@ InitPayment.prototype.initPayment = function (banks, merchantPrivateKey, callbac
 	// [Fix Soap]
 
 	var ws = new BkmExpressPaymentService(wsdlLocation);
+	Utilities.inspect("initializePayment params", params);
 	ws.initializePayment(params, function (err, result) {
 		Utilities.inspect("initializePayment result", result);
 		var response = {state: false};
