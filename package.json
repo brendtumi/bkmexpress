@@ -1,6 +1,6 @@
 {
   "name": "bkmexpress",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Nodejs api for bkm express payment system (Turkey)",
   "main": "bkmexpress.js",
   "scripts": {
