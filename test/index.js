@@ -1,6 +1,6 @@
 process.on('uncaughtException', function (err) {
-    console.log('Caught exception: ' + err);
-    process.exit(1);
+	console.log('Caught exception: ' + err);
+	process.exit(1);
 });
 
 // require
@@ -12,36 +12,36 @@ BKM.Utilities.inspect("version", BKM.version);
 
 // Options
 var akbank = {
-    "bank": [{
-        "id": "0046",
-        "name": "AKBANK",
-        "expBank": "AKBANK",
-        "bins": {
-            "bin": [{
-                "value": "557113",
-                "insts": {
-                    "inst": [
-                        {
-                            "nofInst": "2",
-                            "amountInst": "7,75",
-                            "cAmount": "",
-                            "tAmount": "15,50",
-                            "cPaid1stInst": "false",
-                            "expInst": "2 taksit"
-                        },
-                        {
-                            "nofInst": "3",
-                            "amountInst": "5,30",
-                            "cAmount": "",
-                            "tAmount": "15,90",
-                            "cPaid1stInst": "false",
-                            "expInst": "3 taksit"
-                        }
-                    ]
-                }
-            }]
-        }
-    }]
+	"bank": [{
+		"id": "0046",
+		"name": "AKBANK",
+		"expBank": "AKBANK",
+		"bins": {
+			"bin": [{
+				"value": "557113",
+				"insts": {
+					"inst": [
+						{
+							"nofInst": "2",
+							"amountInst": "7,75",
+							"cAmount": "",
+							"tAmount": "15,50",
+							"cPaid1stInst": "false",
+							"expInst": "2 taksit"
+						},
+						{
+							"nofInst": "3",
+							"amountInst": "5,30",
+							"cAmount": "",
+							"tAmount": "15,90",
+							"cPaid1stInst": "false",
+							"expInst": "3 taksit"
+						}
+					]
+				}
+			}]
+		}
+	}]
 };
 
 var paymentBankOptions = [akbank];
@@ -60,23 +60,23 @@ var paymentUserAgent = "2.0";
 
 
 var initPaymentAction = new BKM.InitPayment(
-    paymentMerchantId,
-    paymentSuccesUrl,
-    paymentCancelUrl,
-    paymentSaleAmount,
-    paymentCargoAmount,
-    paymentMobilSuccessURL,
-    paymentMobilCancelURL,
-    paymentRequestSource,
-    paymentDeviceType,
-    paymentOsSource,
-    paymentUserAgent);
+	paymentMerchantId,
+	paymentSuccesUrl,
+	paymentCancelUrl,
+	paymentSaleAmount,
+	paymentCargoAmount,
+	paymentMobilSuccessURL,
+	paymentMobilCancelURL,
+	paymentRequestSource,
+	paymentDeviceType,
+	paymentOsSource,
+	paymentUserAgent);
 
 var myKeyFile = BKM.Utilities.ReadFile(path.normalize(__dirname + "/../bkm_static/bkm_client_sign_certificate_test.pem"));
 
 initPaymentAction.initPayment(paymentBankOptions, myKeyFile,
-    function () {
-        BKM.Utilities.inspect("initPayment response".cyan, arguments);
-        process.exit();
-    }
+	function () {
+		BKM.Utilities.inspect("initPayment response".cyan, arguments);
+		process.exit();
+	}
 );

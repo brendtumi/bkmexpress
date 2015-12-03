@@ -2,8 +2,8 @@
  * Created by tumay on 13.04.2015.
  */
 var _ = require("lodash"),
-    moment = require("moment"),
-    Utilities = require("./Utilities");
+	moment = require("moment"),
+	Utilities = require("./Utilities");
 
 // NOTE: this is actually not required but its good to have one
 
@@ -12,13 +12,13 @@ var _ = require("lodash"),
  * VirtualPos
  */
 var VirtualPos = function () {
-    if (!(this instanceof VirtualPos)) {
-        return new (Function.prototype.bind.apply(VirtualPos, arguments));
-    }
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
-    if (typeof this.extra === "object")
-        this.extra = JSON.stringify(this.extra);
+	if (!(this instanceof VirtualPos)) {
+		return new (Function.prototype.bind.apply(VirtualPos, arguments));
+	}
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
+	if (typeof this.extra === "object")
+		this.extra = JSON.stringify(this.extra);
 };
 VirtualPos.prototype.posUrl = '';
 VirtualPos.prototype.posUid = '';
@@ -37,11 +37,11 @@ VirtualPos.prototype.extra = '';
  * merchantWSBaseRequest
  */
 function MerchantWSResponseCode() {
-    if (!(this instanceof MerchantWSResponseCode)) {
-        return new (Function.prototype.bind.apply(MerchantWSResponseCode, arguments));
-    }
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (!(this instanceof MerchantWSResponseCode)) {
+		return new (Function.prototype.bind.apply(MerchantWSResponseCode, arguments));
+	}
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 }
 MerchantWSResponseCode.prototype.SUCCESS = {"code": 0, "message": "Success"};
 MerchantWSResponseCode.prototype.UNKNOWN_ERROR = {"code": 1, "message": "Unknown Error"};
@@ -56,25 +56,25 @@ MerchantWSResponseCode.prototype.MPI_NOT_MATCHING = {"code": 7, "message": "MPI 
  * merchantWSBaseRequest
  */
 var merchantWSBaseRequest = function () {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 };
 
 /**
  * merchantWSBaseResponse
  */
 var merchantWSBaseResponse = function () {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 };
 /**
  * result
  * @type result
  */
 merchantWSBaseResponse.prototype.result = {
-    resultCode: '',
-    resultMsg: '',
-    resultDet: ''
+	resultCode: '',
+	resultMsg: '',
+	resultDet: ''
 };
 
 /**
@@ -82,8 +82,8 @@ merchantWSBaseResponse.prototype.result = {
  * @extends merchantWSBaseResponse
  */
 function requestMerchInfoWSResponse() {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 }
 requestMerchInfoWSResponse.prototype = new merchantWSBaseResponse();
 //requestMerchInfoWSResponse.prototype.constructor = requestMerchInfoWSResponse;
@@ -108,8 +108,8 @@ requestMerchInfoWSResponse.prototype.s = '';
  * requestMerchInfoResponse
  */
 function requestMerchInfoResponse() {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 }
 requestMerchInfoResponse.prototype.requestMerchInfoWSResponse = '';
 
@@ -117,11 +117,11 @@ requestMerchInfoResponse.prototype.requestMerchInfoWSResponse = '';
  * initializePayment
  */
 var initializePayment = function () {
-    if (!(this instanceof initializePayment)) {
-        return new (Function.prototype.bind.apply(initializePayment, arguments));
-    }
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (!(this instanceof initializePayment)) {
+		return new (Function.prototype.bind.apply(initializePayment, arguments));
+	}
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 };
 /**
  * initializePaymentWSRequest
@@ -132,8 +132,8 @@ initializePayment.prototype.initializePaymentWSRequest = '';
  * initializePaymentResponse
  */
 var initializePaymentResponse = function () {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 };
 /**
  * initializePaymentWSResponse
@@ -145,8 +145,8 @@ initializePaymentResponse.prototype.initializePaymentWSResponse = '';
  * @extends merchantWSBaseRequest
  */
 var initializePaymentWSRequest = function () {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 };
 initializePaymentWSRequest.prototype = new merchantWSBaseRequest();
 //initializePaymentWSRequest.prototype.constructor = initializePaymentWSRequest;
@@ -172,8 +172,8 @@ initializePaymentWSRequest.prototype.s = '';
  * @extends merchantWSBaseResponse
  */
 var initializePaymentWSResponse = function () {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 };
 initializePaymentWSResponse.prototype = new merchantWSBaseResponse();
 //initializePaymentWSResponse.prototype.constructor = initializePaymentWSResponse;
@@ -184,8 +184,8 @@ initializePaymentWSResponse.prototype.ts = '';
 initializePaymentWSResponse.prototype.s = '';
 
 var IncomingResultModel = function () {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 };
 IncomingResultModel.prototype.t = '';
 IncomingResultModel.prototype.r = '';
@@ -198,26 +198,26 @@ IncomingResultModel.prototype.pData = '';
 IncomingResultModel.prototype.eKey1 = '';
 IncomingResultModel.prototype.eKey2 = '';
 IncomingResultModel.prototype.verify = function (bkmPublicKey) {
-    // FIXME: looks like there is a problem on here
-    var dataToVerify = this.t + this.posRef + this.xid + this.md + this.ts;
-    return Utilities.Verify(
-        bkmPublicKey,
-        this.s,
-        dataToVerify
-    );
+	// FIXME: looks like there is a problem on here
+	var dataToVerify = this.t + this.posRef + this.xid + this.md + this.ts;
+	return Utilities.Verify(
+		bkmPublicKey,
+		this.s,
+		dataToVerify
+	);
 };
 
 var RedirectModel = function () {
-    if (arguments.length === 1)
-        _.extend(this, arguments[0]);
+	if (arguments.length === 1)
+		_.extend(this, arguments[0]);
 };
 RedirectModel.prototype.t = '';
 RedirectModel.prototype.ts = '';
 RedirectModel.prototype.s = '';
 RedirectModel.prototype.actionUrl = '';
 RedirectModel.prototype.sign = function (key) {
-    this.ts = new moment().format("YYYYMMDD-HH:mm:ss");
-    this.s = Utilities.Sign(this.t + this.ts, key);
+	this.ts = new moment().format("YYYYMMDD-HH:mm:ss");
+	this.s = Utilities.Sign(this.t + this.ts, key);
 };
 //endregion
 
