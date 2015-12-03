@@ -33,5 +33,8 @@
     "colors": "^1.1.2",
     "body-parser": "~1.14.1",
     "express": "~4.13.3"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
   }
 }
