@@ -81,6 +81,7 @@ function InitMerchantInfo(virtualPos, OrderIdGenerator, wsdlLocationPath, wsdlLo
 							response.requestMerchInfoWSResponse.result.resultCode = rsCode.SUCCESS.code;
 							response.requestMerchInfoWSResponse.result.resultMsg = rsCode.SUCCESS.message;
 
+							response.requestMerchInfoWSResponse.t = params.requestMerchInfoWSRequest.t;
 							response.requestMerchInfoWSResponse.ts = new moment().format("YYYYMMDD-HH:mm:ss");
 							response.requestMerchInfoWSResponse.s = signResponse(merchantPrivateKey, response);
 
