@@ -149,29 +149,29 @@ var virtualPos = {
 	default: '0046',
 	vpos: {
 		"0046": {
-			posUrl: "https://testsanalpos.est.com.tr/servlet/cc5ApiServer_akbank",
-			posUid: "bkmapi",
+			posUrl: "http://srvirt01:7200/akbank",
+			posUid: "akapi",
 			posPwd: "TEST1234",
-			mpiUrl: "https://testsanalpos.est.com.tr/servlet/est3Dgate_akbank",
-			mpiUid: "bkmapi",
-			mpiPwd: "TEST1234",
-			md: "m1",
-			xid: "x1",
-			cIp: "88.255.225.25",
+			mpiUrl: "",
+			mpiUid: "",
+			mpiPwd: "",
+			md: "",
+			xid: "",
+			cIp: "127.0.0.1",
 			extra: {
 				ClientId: "100111222",
 				storekey: "TEST1234",
 				orderId: "#orderId#"
 			},
-			is3ds: true,
-			is3dsFDec: true
+			is3ds: false,
+			is3dsFDec: false
 		}
 	}
 };
 // NOTE: Should be over express because it will return router for SOAP server
 // NOTE: We are creating this function, so we can dynamically create an order id in some route, like in "Initiate payment"
 function OrderIDgeneretor() {
-	return "OR" + Math.random().toString();
+	return "OR" + Math.random().toString().replace(".", "");
 }
 BKM.InitMerchantInfo(
 	virtualPos,
