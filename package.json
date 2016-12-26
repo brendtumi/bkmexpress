@@ -23,18 +23,18 @@
   },
   "homepage": "https://github.com/brendtumi/bkmexpress",
   "dependencies": {
-    "debug": "^2.2.0",
-    "lodash": "^3.10.1",
-    "moment": "^2.10.6",
-    "soap-express": "1.0.1",
-    "ursa": "^0.9.1"
+    "debug": "^2.5.2",
+    "lodash": "3.10.1",
+    "moment": "^2.17.1",
+    "soap-express": "1.0.2",
+    "ursa": "^0.9.4"
   },
   "devDependencies": {
+    "body-parser": "^1.15.2",
     "colors": "^1.1.2",
-    "body-parser": "~1.14.1",
-    "express": "~4.13.3"
+    "express": "^4.14.0"
   },
   "engines": {
-    "node": ">= 0.10.0 <=0.12"
+    "node": ">0.10.0"
   }
 }
