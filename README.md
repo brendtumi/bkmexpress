@@ -124,8 +124,3 @@ then you just need to redirect your client browser.
 
 [travis-url]: https://travis-ci.org/brendtumi/bkmexpress
 [travis-image]: http://img.shields.io/travis/brendtumi/bkmexpress.svg
-
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/brendtumi/bkmexpress/badge.svg?style=beer-square)](https://beerpay.io/brendtumi/bkmexpress)  [![Beerpay](https://beerpay.io/brendtumi/bkmexpress/make-wish.svg?style=flat-square)](https://beerpay.io/brendtumi/bkmexpress?focus=wish)
