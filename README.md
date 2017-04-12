@@ -1,7 +1,10 @@
 # BKM Express [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status](https://david-dm.org/brendtumi/bkmexpress.svg)](https://david-dm.org/brendtumi/bkmexpress)
 > BKM Express payment system api (Turkey) for node.js
 
-### Not fully tested yet, use your own risk.
+## Developed for Bkm Express Api 1 version. The Bkm Express Api 2 version will be released soon. 
+## Bkm Express Api 1 versiyonu için geliştirildi. Bkm Express Api 2 versiyonu yakında yayınlanacaktır.
+
+#### Not fully tested yet, use your own risk.
 Node.js api for [BKM Express](https://www.bkmexpress.com.tr)
 
 ## Install
@@ -118,9 +121,9 @@ then you just need to redirect your client browser.
 * Author: [Tümay Çeber](https://github.com/brendtumi)
 
 [bkm-url]: https://www.bkmexpress.com.tr
-[downloads-image]: http://img.shields.io/npm/dm/bkmexpress.svg
+[downloads-image]: http://img.shields.io/npm/dm/bkmexpress.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/bkmexpress
-[npm-image]: https://img.shields.io/npm/v/bkmexpress.svg
+[npm-image]: https://img.shields.io/npm/v/bkmexpress.svg?style=flat-square
 
 [travis-url]: https://travis-ci.org/brendtumi/bkmexpress
-[travis-image]: http://img.shields.io/travis/brendtumi/bkmexpress.svg
+[travis-image]: http://img.shields.io/travis/brendtumi/bkmexpress.svg?style=flat-square
