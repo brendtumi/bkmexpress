@@ -2,9 +2,12 @@
   "name": "bkmexpress",
   "version": "1.0.0",
   "description": "Nodejs api for bkm express payment system (Turkey)",
-  "main": "bkmexpress.js",
+  "main": "./lib/bkmexpress.js",
   "scripts": {
-    "test": "node test/index.js"
+    "tsc": "./node_modules/.bin/tsc",
+    "pretest": "npm run tsc && ./node_modules/.bin/tsc test/*.ts",
+    "prepublish": "npm run tsc",
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -14,7 +17,10 @@
     "BKM",
     "bkm express",
     "turkey",
-    "payment"
+    "payment system",
+    "payment integration",
+    "bex2",
+    "bkm-exp"
   ],
   "author": "Tümay Çeber <tumayceber@gmail.com> (https://about.me/tumayceber)",
   "license": "MIT",
@@ -23,18 +29,14 @@
   },
   "homepage": "https://github.com/brendtumi/bkmexpress",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "debug": "^2.6.3",
-    "express": "^4.15.2",
-    "lodash": "3.10.1",
-    "moment": "^2.18.1",
-    "soap-express": "1.0.2",
-    "ursa": "^0.9.4"
+    "@types/node": "^7.0.12"
   },
   "devDependencies": {
-    "body-parser": "^1.15.2",
-    "colors": "^1.1.2",
-    "express": "^4.14.0"
+    "@types/chai": "^3.5.1",
+    "@types/mocha": "^2.2.41",
+    "chai": "^3.5.0",
+    "mocha": "^3.3.0",
+    "typescript": "^2.2.2"
   },
   "engines": {
     "node": ">0.10.0"
