@@ -1,3 +1,4 @@
+/* tslint:disable */
 import * as chai from "chai";
 const should = chai.should();
 import {version} from "../lib/bkmexpress";
@@ -7,7 +8,7 @@ describe("BKM Express SDK version 2", () => {
     const enviroment = process.env.enviroment;
     const merchantId = process.env.merchantId;
 
-    describe("Setup informations", () => {
+    describe("pre-requisites", () => {
         it("merchantSecretKey", () => {
             merchantSecretKey.should.be.a("string");
         });
@@ -17,7 +18,7 @@ describe("BKM Express SDK version 2", () => {
         it("merchantId", () => {
             merchantId.should.be.a("string").with.lengthOf(36);
         });
-        it("BKM version", () => {
+        it("BKM sdk version", () => {
             version.should.be.a("string");
         });
     });
