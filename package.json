@@ -5,9 +5,9 @@
   "main": "./lib/bkmexpress.js",
   "typings": "./lib/bkmexpress.d.ts",
   "scripts": {
-    "lint": "tslint src/*.ts -c tslint.json --fix",
+    "lint": "tslint src/*.ts --config tslint.json --project tsconfig.json --fix",
     "tsc": "rimraf lib && npm run lint && tsc",
-    "pretest": "npm run tsc && tsc test/*.ts",
+    "pretest": "npm run tsc && tsc --target ES6 --module CommonJS --moduleResolution Node test/*.ts",
     "test": "make test",
     "preversion": "npm test",
     "version": "git add -A lib",
