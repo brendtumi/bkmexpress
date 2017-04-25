@@ -11,7 +11,7 @@
 ## Install
 Install with [npm](http://github.com/isaacs/npm):
 ```
- npm install bkmexpress@next
+ npm install bkmexpress
 ```
 
 ## Contributors
