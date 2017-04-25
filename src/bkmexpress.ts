@@ -8,3 +8,8 @@
 const pkg: any = require("../package.json");
 export const version: string = pkg.version;
 export * from "./exceptions";
+export * from "./enums";
+export * from "./config/bexPayment";
+export * from "./config/configuration";
+export * from "./config/bexApiConfiguration";
+export * from "./merchant/token";
