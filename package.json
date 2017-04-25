@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Nodejs api for bkm express payment system (Turkey)",
   "main": "./lib/bkmexpress.js",
+  "typings": "./lib/bkmexpress.d.ts",
   "scripts": {
-    "tsc": "./node_modules/.bin/tsc",
-    "pretest": "npm run tsc && ./node_modules/.bin/tsc test/*.ts",
+    "lint": "tslint src/*.ts -c tslint.json --fix",
+    "tsc": "rimraf lib && npm run lint && tsc",
+    "pretest": "npm run tsc && tsc test/*.ts",
     "prepublish": "npm run tsc",
     "test": "make test"
   },
@@ -36,7 +38,7 @@
     "@types/mocha": "^2.2.41",
     "chai": "^3.5.0",
     "mocha": "^3.3.0",
-    "typescript": "^2.2.2"
+    "rimraf": "^2.6.1"
   },
   "engines": {
     "node": ">0.10.0"

@@ -1,11 +1,5 @@
 {
-  "defaultSeverity": "error",
-  "extends": "tslint:latest",
-  "jsRules": {},
+  "extends": "tslint:recommended",
   "rules": {
-    "eofline": false,
-    "no-var-requires": false,
-    "max-line-length": false
-  },
-  "rulesDirectory": []
+  }
 }

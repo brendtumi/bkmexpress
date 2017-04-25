@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "noImplicitAny": false,
-    "sourceMap": false,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "target": "ES5",
     "declaration": true,
     "outDir": "lib",
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "inlineSourceMap": true,
+    "inlineSources": true
   },
   "include": [
-    "src/*.ts"
+    "src/bkmexpress.ts"
   ],
   "compileOnSave": true
 }
