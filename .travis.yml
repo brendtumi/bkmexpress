@@ -1,7 +1,6 @@
 language: node_js
 node_js:
-  - "0.10"
   - "6"
   - "7"
 before_install:
-- npm install -g typescript tslint mocha chai
+- npm install -g typescript tslint mocha

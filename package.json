@@ -8,8 +8,10 @@
     "lint": "tslint src/*.ts -c tslint.json --fix",
     "tsc": "rimraf lib && npm run lint && tsc",
     "pretest": "npm run tsc && tsc test/*.ts",
-    "prepublish": "npm run tsc",
-    "test": "make test"
+    "test": "make test",
+    "preversion": "npm test",
+    "version": "git add -A lib",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -37,7 +39,6 @@
     "@types/chai": "^3.5.1",
     "@types/mocha": "^2.2.41",
     "chai": "^3.5.0",
-    "mocha": "^3.3.0",
     "rimraf": "^2.6.1"
   },
   "engines": {
