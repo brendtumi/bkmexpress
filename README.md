@@ -126,4 +126,4 @@ then you just need to redirect your client browser.
 [npm-image]: https://img.shields.io/npm/v/bkmexpress.svg?style=flat-square
 
 [travis-url]: https://travis-ci.org/brendtumi/bkmexpress
-[travis-image]: http://img.shields.io/travis/brendtumi/bkmexpress.svg?style=flat-square
+[travis-image]: http://img.shields.io/travis/brendtumi/bkmexpress/1.x.svg?style=flat-square
