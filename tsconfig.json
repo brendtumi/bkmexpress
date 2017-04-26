@@ -5,12 +5,17 @@
     "target": "ES5",
     "declaration": true,
     "outDir": "lib",
-    "noUnusedLocals": true,
     "inlineSourceMap": true,
-    "inlineSources": true
+    "inlineSources": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "removeComments": true
   },
-  "include": [
+  "files": [
     "src/bkmexpress.ts"
+  ],
+  "include": [
+    "src/**/*"
   ],
   "compileOnSave": true
 }

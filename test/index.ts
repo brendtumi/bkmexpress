@@ -5,15 +5,15 @@ import * as Bex from "../lib/bkmexpress";
 
 describe("BKM Express SDK version 2", () => {
     const merchantSecretKey = process.env.merchantSecretKey;
-    const enviroment = process.env.enviroment;
+    const environment = Bex.Environment[process.env.enviroment];
     const merchantId = process.env.merchantId;
 
     describe("pre-requisites", () => {
         it("merchantSecretKey", () => {
             merchantSecretKey.should.be.a("string");
         });
-        it("enviroment", () => {
-            enviroment.should.be.a("string").to.equal(Bex.Environment.DEV);
+        it("environment", () => {
+            environment.should.be.equal(Bex.Environment.DEV);
         });
         it("merchantId", () => {
             merchantId.should.be.a("string").with.lengthOf(36);
@@ -27,10 +27,10 @@ describe("BKM Express SDK version 2", () => {
 
     describe("Bex Config", () => {
         it("BexPayment instanceof Configuration", () => {
-            config = Bex.BexPayment.startBexPayment(enviroment, merchantId, merchantSecretKey);
-            // config = new BexPayment(enviroment, merchantId, merchantSecretKey);
+            config = Bex.BexPayment.startBexPayment(Bex.Environment.DEV, merchantId, merchantSecretKey);
+            // config = new Bex.BexPayment(Bex.Environment.DEV, merchantId, merchantSecretKey);
             config.should.be.instanceof(Bex.Configuration);
-            config.Environment.should.be.a("string").to.equal(enviroment);
+            config.Environment.should.be.equal(environment);
         });
 
         it("BexPayment Properties", () => {

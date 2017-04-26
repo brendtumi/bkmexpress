@@ -6,21 +6,21 @@
  */
 
 export class Token {
-    private shortId: number;
+    private shortId: string;
     private path: string;
     private token: string;
 
-    public constructor(shortId: number, path: string, token: string) {
+    public constructor(shortId: string, path: string, token: string) {
         this.shortId = shortId;
         this.path = path;
         this.token = token;
     }
 
-    get ShortId(): number {
+    get ShortId(): string {
         return this.shortId;
     }
 
-    set ShortId(shortId: number) {
+    set ShortId(shortId: string) {
         this.shortId = shortId;
     }
 

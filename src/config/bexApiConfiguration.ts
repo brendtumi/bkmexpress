@@ -21,7 +21,7 @@ export class BexApiConfiguration {
     private baseUrl: string;
     private baseJs: string;
 
-    public constructor(environment) {
+    public constructor(environment: Environment) {
         if (Environment.LOCAL === environment) {
             this.baseUrl = BexApiConfiguration.LOCAL_URL;
             this.baseJs = BexApiConfiguration.LOCAL_EXPRESS_JS_URL;

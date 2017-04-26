@@ -5,18 +5,19 @@
  * @date 26.04.2017
  */
 
+import {Environment} from "../enums";
 import {ConfigurationException} from "../exceptions";
 import {BexApiConfiguration} from "./bexApiConfiguration";
 
 export class Configuration {
-    private environment: string;
+    private environment: Environment;
     private merchantId: string;
     private merchantPrivateKey: string;
     private bexApiConfiguration: BexApiConfiguration;
 
-    public constructor(environment: string, merchantId: string, merchantPrivateKey: string) {
+    public constructor(environment: Environment, merchantId: string, merchantPrivateKey: string) {
         if (!environment) {
-            throw new ConfigurationException("Enviroment can not be NULL or Empty.");
+            throw new ConfigurationException("Environment can not be NULL or Empty.");
         }
         if (!merchantId) {
             throw new ConfigurationException("Merchant id can not be NULL or Empty.");
@@ -31,11 +32,11 @@ export class Configuration {
         this.bexApiConfiguration = new BexApiConfiguration(environment);
     }
 
-    get Environment(): string {
+    get Environment(): Environment {
         return this.environment;
     }
 
-    set Environment(environment: string) {
+    set Environment(environment: Environment) {
         this.environment = environment;
     }
 

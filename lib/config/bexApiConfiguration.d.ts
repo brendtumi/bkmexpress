@@ -1,3 +1,4 @@
+import { Environment } from "../enums";
 export declare class BexApiConfiguration {
     static LOCAL_URL: string;
     static DEV_URL: string;
@@ -9,7 +10,7 @@ export declare class BexApiConfiguration {
     static PRODUCTION_EXPRESS_JS_URL: string;
     private baseUrl;
     private baseJs;
-    constructor(environment: any);
+    constructor(environment: Environment);
     BaseUrl: string;
     BaseJs: string;
 }

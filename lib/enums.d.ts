@@ -1,8 +1,8 @@
-export declare class Environment {
-    static DEV: string;
-    static LOCAL: string;
-    static SANDBOX: string;
-    static PRODUCTION: string;
+export declare enum Environment {
+    DEV = 1,
+    LOCAL = 2,
+    SANDBOX = 3,
+    PRODUCTION = 4,
 }
 export declare class Banks {
     static ALBARAKA: string;
