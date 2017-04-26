@@ -10,11 +10,28 @@ import {VposConfig} from "./request/vposConfig";
 export class EncryptionUtil {
 
     public static sign(privateKey: string, data: string): string | null {
-        return EncryptionUtil.publicKey;
+        return null;
     }
 
-    public static encryptWithBex(vposConfig: VposConfig): string | null {
-        return null;
+    public static encryptWithBex(vposConfig: VposConfig | string): string {
+        if (vposConfig instanceof VposConfig) {
+            return "";
+        }
+        else {
+            return EncryptionUtil.encrypt(EncryptionUtil.publicKey, vposConfig);
+        }
+    }
+
+    public static encrypt(publicKey: string, plaintext: string): string {
+        return "";
+    }
+
+    public static decrypt(privateKey: string, plaintext: string): string {
+        return "";
+    }
+
+    public static verifyBexSign(data: string, signature: string): boolean {
+        return false;
     }
 
     private static publicKey =
@@ -25,4 +42,21 @@ export class EncryptionUtil {
         "Tx6ia6FS4nfjRNqpVqI0m2jIcG8yXt1OaBSazkuRlRepMtDVwMGF4xOWXuRVv+G5" +
         "oiTsbOez9tQAcx+KH0W1Pn9Q9/zzOJyF9AS8J1UDE7c7rKwXGDnuTBU1BwdAGyB8" +
         "7QIDAQAB";
+
+    private static getPrivateKeyFromString(privateKey: string): string {
+        return "";
+    }
+
+    private static getPublicKeyFromString(publicKey: string): string {
+        return "";
+    }
+
+    private static encode64(data: string): string {
+        return "";
+    }
+
+    private static decode64(data: string): string {
+        return "";
+    }
+
 }
