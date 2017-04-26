@@ -47,4 +47,13 @@ describe("BKM Express SDK version 2", () => {
             config.BexApiConfiguration.BaseJs.should.be.a("string");
         });
     });
+
+    describe("Encryption Utilities", () => {
+        it("Base64 encode decode", () => {
+            const testString = "Encryption Utilities + Base64 encode decode";
+            let encoded = Bex.EncryptionUtil.encode64(testString);
+            let decoded = Bex.EncryptionUtil.decode64(encoded);
+            decoded.should.be.equal(testString);
+        });
+    });
 });
