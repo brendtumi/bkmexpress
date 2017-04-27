@@ -68,7 +68,6 @@ describe("BKM Express SDK version 2", () => {
         it("Encrypt and decrypt with keys", () => {
             const encrypted = Bex.EncryptionUtil.encrypt(publicKey, testString);
             encrypted.should.be.a("string");
-
             const dencrypted = Bex.EncryptionUtil.decrypt(privateKey, encrypted, true);
             dencrypted.should.be.a("string").with.equal(testString);
         });

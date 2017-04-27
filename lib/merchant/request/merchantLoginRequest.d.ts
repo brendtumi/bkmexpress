@@ -1,7 +1,7 @@
 export declare class MerchantLoginRequest {
     private id;
     private signature;
-    MerchantLoginRequest(id: string, signature: string): void;
+    constructor(id: string, signature: string);
     Id: string;
     Signature: string;
 }

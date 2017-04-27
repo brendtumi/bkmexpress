@@ -10,7 +10,7 @@ export class MerchantLoginRequest {
     private id: string;
     private signature: string;
 
-    public MerchantLoginRequest(id: string, signature: string) {
+    public constructor(id: string, signature: string) {
         this.id = id;
         this.signature = signature;
     }

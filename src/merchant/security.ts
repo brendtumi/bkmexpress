@@ -45,8 +45,8 @@ export class EncryptionUtil {
                 crypt = crypto.publicEncrypt(publicKey, plainBuffer);
             }
             else {
-                const NodeRSA = require("node-rsa");
-                const key = new NodeRSA(publicKey);
+                const NodeRSA: any = require("node-rsa");
+                const key: any = new NodeRSA(publicKey);
                 crypt = key.encrypt(plainBuffer);
             }
             return crypt.toString("base64");
@@ -65,8 +65,8 @@ export class EncryptionUtil {
                 crypt = crypto.privateDecrypt(privateKey, plainBuffer);
             }
             else {
-                const NodeRSA = require("node-rsa");
-                const key = new NodeRSA(privateKey);
+                const NodeRSA: any = require("node-rsa");
+                const key: any = new NodeRSA(privateKey);
                 crypt = key.decrypt(plainBuffer);
             }
             return crypt.toString();

@@ -34,9 +34,17 @@
   },
   "homepage": "https://github.com/brendtumi/bkmexpress",
   "dependencies": {
+    "@types/bluebird": "^3.5.3",
+    "@types/lodash": "^4.14.63",
     "@types/node": "^7.0.14",
+    "@types/request": "0.0.42",
+    "@types/request-promise": "^4.1.33",
     "@types/semver": "^5.3.31",
+    "bluebird": "^3.5.0",
+    "lodash": "^4.17.4",
     "node-rsa": "^0.4.2",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
     "semver": "^5.3.0"
   },
   "devDependencies": {
