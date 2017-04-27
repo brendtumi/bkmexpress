@@ -2,11 +2,18 @@
 import * as chai from "chai";
 const should = chai.should();
 import * as Bex from "../lib/bkmexpress";
+import * as fs from "fs";
 
 describe("BKM Express SDK version 2", () => {
     const merchantSecretKey = process.env.merchantSecretKey;
     const environment = Bex.Environment[process.env.enviroment];
     const merchantId = process.env.merchantId;
+
+    const testString = "This is test string";
+    const privateKey = fs.readFileSync("./test/private.pem").toString();
+    const publicKey = fs.readFileSync("./test/public.pem").toString();
+
+    let config: Bex.Configuration;
 
     describe("pre-requisites", () => {
         it("merchantSecretKey", () => {
@@ -22,8 +29,6 @@ describe("BKM Express SDK version 2", () => {
             Bex.version.should.be.a("string");
         });
     });
-
-    let config: Bex.Configuration;
 
     describe("Bex Config", () => {
         it("BexPayment instanceof Configuration", () => {
@@ -50,10 +55,22 @@ describe("BKM Express SDK version 2", () => {
 
     describe("Encryption Utilities", () => {
         it("Base64 encode decode", () => {
-            const testString = "Encryption Utilities + Base64 encode decode";
-            let encoded = Bex.EncryptionUtil.encode64(testString);
-            let decoded = Bex.EncryptionUtil.decode64(encoded);
+            const encoded = Bex.EncryptionUtil.encode64(testString);
+            const decoded = Bex.EncryptionUtil.decode64(encoded);
             decoded.should.be.equal(testString);
+        });
+        it("Sign and verify with keys", () => {
+            const signature = Bex.EncryptionUtil.sign(privateKey, testString);
+            signature.should.be.a("string");
+            const verify = Bex.EncryptionUtil.verify(publicKey, testString, signature);
+            verify.should.be.a("boolean").with.equal(true);
+        });
+        it("Encrypt and decrypt with keys", () => {
+            const encrypted = Bex.EncryptionUtil.encrypt(publicKey, testString);
+            encrypted.should.be.a("string");
+
+            const dencrypted = Bex.EncryptionUtil.decrypt(privateKey, encrypted, true);
+            dencrypted.should.be.a("string").with.equal(testString);
         });
     });
 });
