@@ -11,7 +11,7 @@ export class BexResponse<T> {
     private code: string;
     private call: string;
     private description: string;
-    // TODO: type <String, Object>
+    // TODO: type Map<String, Object>
     private parameters: any;
     private data: T;
 
