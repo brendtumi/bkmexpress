@@ -28,7 +28,5 @@ node_modules
 
 # IDE
 .idea
-src/*.js
-src/*/*.js
-test/*.js
+src/**/*.js
 sample
