@@ -10,12 +10,12 @@ import {ConfigurationException} from "../exceptions";
 import {BexApiConfiguration} from "./bexApiConfiguration";
 
 export class Configuration {
-    private environment: Environment;
+    private environment: string;
     private merchantId: string;
     private merchantPrivateKey: string;
     private bexApiConfiguration: BexApiConfiguration;
 
-    public constructor(environment: Environment, merchantId: string, merchantPrivateKey: string) {
+    public constructor(environment: string, merchantId: string, merchantPrivateKey: string) {
         if (!environment) {
             throw new ConfigurationException("Environment can not be NULL or Empty.");
         }
@@ -32,11 +32,11 @@ export class Configuration {
         this.bexApiConfiguration = new BexApiConfiguration(environment);
     }
 
-    get Environment(): Environment {
+    get Environment(): string {
         return this.environment;
     }
 
-    set Environment(environment: Environment) {
+    set Environment(environment: string) {
         this.environment = environment;
     }
 

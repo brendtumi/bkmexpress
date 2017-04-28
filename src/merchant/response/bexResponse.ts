@@ -7,6 +7,7 @@
 
 export class BexResponse<T> {
 
+    private message: string;
     private result: string;
     private code: string;
     private call: string;
@@ -14,6 +15,14 @@ export class BexResponse<T> {
     // TODO: type Map<String, Object>
     private parameters: any;
     private data: T;
+
+    get Message(): string {
+        return this.message;
+    }
+
+    set Message(message: string) {
+        this.message = message;
+    }
 
     get Result(): string {
         return this.result;

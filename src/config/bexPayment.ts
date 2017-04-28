@@ -10,7 +10,7 @@ import {BexPaymentException} from "../exceptions";
 import {Configuration} from "./configuration";
 
 export class BexPayment extends Configuration {
-    public static startBexPayment(environment: Environment, merchantId: string, merchantSecret: string) {
+    public static startBexPayment(environment: string, merchantId: string, merchantSecret: string) {
         if (!environment) {
             throw new BexPaymentException("Environment can not be NULL or Empty.");
         }
@@ -24,7 +24,7 @@ export class BexPayment extends Configuration {
         return new Configuration(environment, merchantId, merchantSecret);
     }
 
-    public constructor(environment: Environment, merchantId: string, merchantSecret: string) {
+    public constructor(environment: string, merchantId: string, merchantSecret: string) {
         if (!environment) {
             throw new BexPaymentException("Environment can not be NULL or Empty.");
         }

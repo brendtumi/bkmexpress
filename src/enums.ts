@@ -6,11 +6,11 @@
 
 /* tslint:disable:max-classes-per-file */
 import {BexException} from "./exceptions";
-export enum Environment {
-    DEV = 1,
-    LOCAL,
-    SANDBOX,
-    PRODUCTION,
+export class Environment {
+    static DEV = "DEV";
+    static LOCAL = "LOCAL";
+    static SANDBOX = "SANDBOX";
+    static PRODUCTION = "PRODUCTION";
 }
 
 export class Banks {
