@@ -8,11 +8,14 @@
 import * as Bluebird from "bluebird";
 import {Configuration} from "../config/configuration";
 import {MerchantServiceException} from "../exceptions";
+import {MoneyUtils} from "../moneyUtils";
 import {MerchantApi} from "./merchantApi";
-import {Token} from "./token";
-import {EncryptionUtil} from "./security";
 import {MerchantLoginRequest} from "./request/merchantLoginRequest";
+import {TicketRequest} from "./request/ticketRequest";
 import {MerchantLoginResponse} from "./response/merchantLoginResponse";
+import {TicketResponse} from "./response/ticketResponse";
+import {EncryptionUtil} from "./security";
+import {Token} from "./token";
 
 export class MerchantService {
     protected configuration: Configuration;
@@ -28,6 +31,26 @@ export class MerchantService {
         return new Bluebird((resolve, reject) => {
             MerchantApi.login(this.configuration.BexApiConfiguration.BaseUrl, request)
                 .then((response: MerchantLoginResponse) => {
+                    resolve(response.Token);
+                })
+                .catch((error) => {
+                    reject(new MerchantServiceException(error));
+                });
+        });
+    }
+
+    public oneTimeTicket(connectionToken: Token, amount: number, installmentUrl?: string, nonceUrl?: string): Promise<Token | MerchantServiceException> {
+        const ticket = new TicketRequest("payment");
+        ticket.Amount = MoneyUtils.toTRY(amount);
+        if (installmentUrl) {
+            ticket.InstallmentUrl = installmentUrl;
+        }
+        if (nonceUrl) {
+            ticket.NonceUrl = nonceUrl;
+        }
+        return new Bluebird((resolve, reject) => {
+            MerchantApi.ticket(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, ticket)
+                .then((response: TicketResponse) => {
                     resolve(response.Token);
                 })
                 .catch((error) => {

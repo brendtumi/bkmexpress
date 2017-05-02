@@ -4,6 +4,7 @@ export declare class TicketRequest {
     private nonceUrl;
     private amount;
     private orderId;
+    constructor(type?: string);
     Type: string;
     InstallmentUrl: string;
     NonceUrl: string;

@@ -5,7 +5,6 @@
  * @date 26.04.2017
  */
 
-import {Environment} from "../enums";
 import {ConfigurationException} from "../exceptions";
 import {BexApiConfiguration} from "./bexApiConfiguration";
 

@@ -1,6 +1,7 @@
 export declare const version: string;
 export * from "./exceptions";
 export * from "./enums";
+export * from "./moneyUtils";
 export * from "./config/bexPayment";
 export * from "./config/configuration";
 export * from "./config/bexApiConfiguration";
@@ -10,6 +11,7 @@ export * from "./merchant/token";
 export * from "./merchant/merchantApi";
 export * from "./merchant/request/merchantLoginRequest";
 export * from "./merchant/request/vposConfig";
+export * from "./merchant/request/installmentRequest";
 export * from "./merchant/request/ticketRequest";
 export * from "./merchant/response/bexResponse";
 export * from "./merchant/response/posResult";

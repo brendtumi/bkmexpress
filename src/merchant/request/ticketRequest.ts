@@ -7,10 +7,14 @@
 
 export class TicketRequest {
     private type: string;
-    private installmentUrl: string;
+    private installmentUrl: string | null = null;
     private nonceUrl: string;
     private amount: string;
     private orderId: string;
+
+    public constructor(type?: string) {
+        this.type = type;
+    }
 
     get Type(): string {
         return this.type;

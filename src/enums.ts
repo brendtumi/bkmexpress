@@ -7,10 +7,10 @@
 /* tslint:disable:max-classes-per-file */
 import {BexException} from "./exceptions";
 export class Environment {
-    static DEV = "DEV";
-    static LOCAL = "LOCAL";
-    static SANDBOX = "SANDBOX";
-    static PRODUCTION = "PRODUCTION";
+    public static DEV = "DEV";
+    public static LOCAL = "LOCAL";
+    public static SANDBOX = "SANDBOX";
+    public static PRODUCTION = "PRODUCTION";
 }
 
 export class Banks {

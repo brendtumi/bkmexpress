@@ -5,7 +5,6 @@
  * @date 26.04.2017
  */
 
-import {Environment} from "../enums";
 import {BexPaymentException} from "../exceptions";
 import {Configuration} from "./configuration";
 

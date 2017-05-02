@@ -5,4 +5,5 @@ export declare class MerchantService {
     protected configuration: Configuration;
     constructor(configuration: Configuration);
     login(): Promise<Token | MerchantServiceException>;
+    oneTimeTicket(connectionToken: Token, amount: number, installmentUrl?: string, nonceUrl?: string): Promise<Token | MerchantServiceException>;
 }
