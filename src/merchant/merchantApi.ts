@@ -10,11 +10,9 @@ import {CoreOptions} from "request";
 import * as request from "request-promise";
 import {MerchantLoginRequest} from "./request/merchantLoginRequest";
 import {TicketRequest} from "./request/ticketRequest";
-import {MerchantLoginResponse} from "./response/merchantLoginResponse";
+import {RawBexResponse} from "./response/bexResponse";
 import {MerchantNonceResponse} from "./response/nonce/merchantNonceResponse";
-import {NonceResultResponse} from "./response/nonce/nonceResultResponse";
-import {PaymentResultResponse} from "./response/paymentResultResponse";
-import {TicketResponse} from "./response/ticketResponse";
+import {PosData} from "./response/paymentResultResponse";
 import {Token} from "./token";
 
 export class MerchantApi {
@@ -31,23 +29,23 @@ export class MerchantApi {
         timeout: 20000,
     };
 
-    public static login(baseUrl: string, body: MerchantLoginRequest): Promise<MerchantLoginResponse | Error> {
+    public static login(baseUrl: string, body: MerchantLoginRequest): Promise<RawBexResponse<Token> | Error> {
         const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, body});
         return request("merchant/login", opts);
     }
 
-    public static ticket(baseUrl: string, token: Token, body: TicketRequest): Promise<TicketResponse | Error> {
+    public static ticket(baseUrl: string, token: Token, body: TicketRequest): Promise<RawBexResponse<Token> | Error> {
         const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, body, headers: {"Bex-Connection": token.Token}});
         return request(`merchant/${token.Path}/ticket?type=${body.Type}`, opts);
     }
 
-    public static result(baseUrl: string, token: Token, ticketId: string): Promise<PaymentResultResponse | Error> {
+    public static result(baseUrl: string, token: Token, ticketId: string): Promise<RawBexResponse<PosData> | Error> {
         const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, headers: {"Bex-Connection": token.Token}});
         return request(`merchant/${token.Path}/ticket/${ticketId}/operate?name=result`, opts);
 
     }
 
-    public static commit(baseUrl: string, token: Token, body: MerchantNonceResponse): Promise<NonceResultResponse | Error> {
+    public static commit(baseUrl: string, token: Token, body: MerchantNonceResponse): Promise<RawBexResponse<PosData> | Error> {
         const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, headers: {"Bex-Connection": token.Token, "Bex-Nonce": body.Nonce}});
         return request(`merchant/${token.Path}/ticket/${body.Id}/operate?name=commit`, opts);
     }

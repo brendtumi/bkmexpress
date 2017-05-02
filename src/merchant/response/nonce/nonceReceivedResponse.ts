@@ -4,13 +4,13 @@
  * @license http://opensource.org/licenses/MIT
  * @date 26.04.2017
  */
-import {BexResponse} from "../bexResponse";
+import {BexResponse, RawBexResponse} from "../bexResponse";
 
 export class NonceReceivedResponse extends BexResponse<string> {
     public status: string = "OK";
 
-    public constructor() {
-        super();
+    public constructor(obj?: RawBexResponse<string>) {
+        super(obj);
         this.Data = this.status;
     }
 }

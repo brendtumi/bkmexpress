@@ -6,10 +6,14 @@
  */
 
 // tslint:disable:max-classes-per-file
-import {BexResponse} from "./bexResponse";
+import {BexResponse, RawBexResponse} from "./bexResponse";
 import {PosResult} from "./posResult";
 
 export class PaymentResultResponse extends BexResponse<PosData> {
+    public constructor(obj?: RawBexResponse<PosData>) {
+        super(obj);
+    }
+
     public isPaymentPurchased(): boolean {
         return this.Data.isPaymentPurchased();
     }

@@ -6,9 +6,14 @@
  */
 
 import {Token} from "../token";
-import {BexResponse} from "./bexResponse";
+import {BexResponse, RawBexResponse} from "./bexResponse";
 
 export class MerchantLoginResponse extends BexResponse<Token> {
+
+    public constructor(obj?: RawBexResponse<Token>) {
+        super(obj);
+    }
+
     get Token(): Token {
         return this.Data;
     }

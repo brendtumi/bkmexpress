@@ -1,6 +1,7 @@
-import { BexResponse } from "./bexResponse";
+import { BexResponse, RawBexResponse } from "./bexResponse";
 import { PosResult } from "./posResult";
 export declare class PaymentResultResponse extends BexResponse<PosData> {
+    constructor(obj?: RawBexResponse<PosData>);
     isPaymentPurchased(): boolean;
     readonly Status: string;
     readonly InstallmentCount: string;

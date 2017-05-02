@@ -12,6 +12,7 @@ import {MoneyUtils} from "../moneyUtils";
 import {MerchantApi} from "./merchantApi";
 import {MerchantLoginRequest} from "./request/merchantLoginRequest";
 import {TicketRequest} from "./request/ticketRequest";
+import {RawBexResponse} from "./response/bexResponse";
 import {MerchantLoginResponse} from "./response/merchantLoginResponse";
 import {TicketResponse} from "./response/ticketResponse";
 import {EncryptionUtil} from "./security";
@@ -30,7 +31,8 @@ export class MerchantService {
         const request = new MerchantLoginRequest(merchantId, sign);
         return new Bluebird((resolve, reject) => {
             MerchantApi.login(this.configuration.BexApiConfiguration.BaseUrl, request)
-                .then((response: MerchantLoginResponse) => {
+                .then((raw: RawBexResponse<Token>) => {
+                    const response = new MerchantLoginResponse(raw);
                     resolve(response.Token);
                 })
                 .catch((error) => {
@@ -50,7 +52,8 @@ export class MerchantService {
         }
         return new Bluebird((resolve, reject) => {
             MerchantApi.ticket(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, ticket)
-                .then((response: TicketResponse) => {
+                .then((raw: RawBexResponse<Token>) => {
+                    const response = new TicketResponse(raw);
                     resolve(response.Token);
                 })
                 .catch((error) => {

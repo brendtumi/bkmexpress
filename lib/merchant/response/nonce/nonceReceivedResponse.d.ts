@@ -1,5 +1,5 @@
-import { BexResponse } from "../bexResponse";
+import { BexResponse, RawBexResponse } from "../bexResponse";
 export declare class NonceReceivedResponse extends BexResponse<string> {
     status: string;
-    constructor();
+    constructor(obj?: RawBexResponse<string>);
 }

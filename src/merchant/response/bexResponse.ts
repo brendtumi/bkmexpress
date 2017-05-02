@@ -5,16 +5,38 @@
  * @date 26.04.2017
  */
 
-export class BexResponse<T> {
-
-    private message: string;
-    private result: string;
-    private code: string;
-    private call: string;
-    private description: string;
+/* tslint:disable:max-classes-per-file */
+export class RawBexResponse<T> {
+    public call?: string;
+    public result?: string;
+    public code?: string;
+    public message?: string;
+    public description?: string;
     // TODO: type Map<String, Object>
-    private parameters: any;
-    private data: T;
+    public parameters?: any;
+    public data?: T;
+    public error?: string;
+}
+
+export class BexResponse<T> {
+    protected call?: string;
+    protected result?: string;
+    protected code?: string;
+    protected message?: string;
+    protected description?: string;
+    // TODO: type Map<String, Object>
+    protected parameters?: any;
+    protected data?: T;
+
+    public constructor(obj?: RawBexResponse<T>) {
+        this.Message = obj.message;
+        this.Result = obj.result;
+        this.Code = obj.code;
+        this.Call = obj.call;
+        this.Description = obj.description;
+        this.Parameters = obj.parameters;
+        this.Data = obj.data;
+    }
 
     get Message(): string {
         return this.message;
