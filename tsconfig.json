@@ -8,7 +8,7 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "noImplicitAny": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "removeComments": true
   },
   "files": [
