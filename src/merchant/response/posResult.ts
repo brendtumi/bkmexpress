@@ -6,14 +6,14 @@
  */
 
 export interface IPosResult {
-    orderId: string;
-    authCode: string;
-    posResponse: string;
-    posResultCode: string;
-    posResultMessage: string;
-    referenceNumber: string;
-    posTransactionId: string;
-    posBank: string;
+    orderId?: string;
+    authCode?: string;
+    posResponse?: string;
+    posResultCode?: string;
+    posResultMessage?: string;
+    referenceNumber?: string;
+    posTransactionId?: string;
+    posBank?: string;
 }
 
 export class PosResult {

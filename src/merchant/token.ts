@@ -10,10 +10,10 @@ export class Token {
     private path: string;
     private token: string;
 
-    public constructor(shortId: string, path: string, token: string) {
-        this.shortId = shortId;
-        this.path = path;
-        this.token = token;
+    public constructor(obj?: { id: string, shortId: string, path: string, token: string } | any) {
+        this.shortId = obj.id || obj.shortId;
+        this.path = obj.path;
+        this.token = obj.token;
     }
 
     get ShortId(): string {

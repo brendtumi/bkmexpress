@@ -12,6 +12,7 @@ export class MerchantLoginResponse extends BexResponse<Token> {
 
     public constructor(obj?: RawBexResponse<Token>) {
         super(obj);
+        this.Data = new Token(obj.data);
     }
 
     get Token(): Token {

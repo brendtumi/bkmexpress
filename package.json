@@ -7,10 +7,10 @@
   "scripts": {
     "lint": "tslint src/**/*.ts --config tslint.json --project tsconfig.json --fix",
     "tsc": "tsc",
-    "build": "rimraf lib && npm run tsc",
+    "build": "node_modules/.bin/rimraf lib && npm run tsc",
     "pretest": "npm run build",
     "test": "make test",
-    "sample": "npm run lint && npm run build && node sample/index.js",
+    "sample": "node_modules/.bin/rimraf src/**/*.js && npm run lint && npm run build && node sample/index.js",
     "preversion": "npm run lint && npm test",
     "version": "git add -A lib",
     "postversion": "git push && git push --tags"

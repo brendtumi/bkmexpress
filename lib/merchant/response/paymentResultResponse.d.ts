@@ -22,6 +22,7 @@ export declare class PosData {
     private cardHash;
     private bkmTokenId;
     private posResult;
+    constructor(obj?: any);
     readonly Status: string;
     isPaymentPurchased(): boolean;
     readonly InstallmentCount: string;
