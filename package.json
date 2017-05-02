@@ -5,7 +5,7 @@
   "main": "./lib/bkmexpress.js",
   "typings": "./lib/bkmexpress.d.ts",
   "scripts": {
-    "lint": "tslint src/*.ts --config tslint.json --project tsconfig.json --fix",
+    "lint": "tslint src/**/*.ts --config tslint.json --project tsconfig.json --fix",
     "tsc": "tsc",
     "build": "rimraf lib && npm run tsc",
     "pretest": "npm run build",
