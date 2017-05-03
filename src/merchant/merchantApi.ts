@@ -8,6 +8,7 @@
 import {extend} from "lodash";
 import {CoreOptions} from "request";
 import * as request from "request-promise";
+import {debug} from "../debug";
 import {MerchantLoginRequest} from "./request/merchantLoginRequest";
 import {TicketRequest} from "./request/ticketRequest";
 import {RawBexResponse} from "./response/bexResponse";
@@ -31,22 +32,26 @@ export class MerchantApi {
 
     public static login(baseUrl: string, body: MerchantLoginRequest): Promise<RawBexResponse<Token> | Error> {
         const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, body});
+        debug("MerchantApi", "merchant/login", opts);
         return request("merchant/login", opts);
     }
 
     public static ticket(baseUrl: string, token: Token, body: TicketRequest): Promise<RawBexResponse<Token> | Error> {
         const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, body, headers: {"Bex-Connection": token.Token}});
+        debug("MerchantApi", `merchant/${token.Path}/ticket?type=${body.Type}`, opts);
         return request(`merchant/${token.Path}/ticket?type=${body.Type}`, opts);
     }
 
     public static result(baseUrl: string, token: Token, ticketId: string): Promise<RawBexResponse<PosData> | Error> {
         const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, headers: {"Bex-Connection": token.Token}});
+        debug("MerchantApi", `merchant/${token.Path}/ticket/${ticketId}/operate?name=result`, opts);
         return request(`merchant/${token.Path}/ticket/${ticketId}/operate?name=result`, opts);
 
     }
 
     public static commit(baseUrl: string, token: Token, body: MerchantNonceResponse): Promise<RawBexResponse<PosData> | Error> {
         const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, headers: {"Bex-Connection": token.Token, "Bex-Nonce": body.Nonce}});
+        debug("MerchantApi", `merchant/${token.Path}/ticket/${body.Id}/operate?name=commit`, opts);
         return request(`merchant/${token.Path}/ticket/${body.Id}/operate?name=commit`, opts);
     }
 

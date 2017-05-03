@@ -7,6 +7,7 @@
 
 import * as Bluebird from "bluebird";
 import {Configuration} from "../config/configuration";
+import {debug} from "../debug";
 import {MerchantServiceException} from "../exceptions";
 import {MoneyUtils} from "../moneyUtils";
 import {MerchantApi} from "./merchantApi";
@@ -30,11 +31,15 @@ export class MerchantService {
         const sign = EncryptionUtil.sign(this.configuration.MerchantPrivateKey, merchantId);
         const request = new MerchantLoginRequest(merchantId, sign);
         return new Bluebird((resolve, reject) => {
+            debug("MerchantService/login", request);
             MerchantApi.login(this.configuration.BexApiConfiguration.BaseUrl, request)
                 .then((raw: RawBexResponse<Token>) => {
-                    resolve(new MerchantLoginResponse(raw));
+                    const response: MerchantLoginResponse = new MerchantLoginResponse(raw);
+                    debug("MerchantService/login", "MerchantLoginResponse", response);
+                    resolve(response);
                 })
                 .catch((error) => {
+                    debug("MerchantService/login", "MerchantServiceException", error);
                     reject(new MerchantServiceException(error));
                 });
         });
@@ -50,11 +55,15 @@ export class MerchantService {
             ticket.NonceUrl = nonceUrl;
         }
         return new Bluebird((resolve, reject) => {
+            debug("MerchantService/oneTimeTicket", connectionToken, ticket);
             MerchantApi.ticket(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, ticket)
                 .then((raw: RawBexResponse<Token>) => {
-                    resolve(new TicketResponse(raw));
+                    const response: TicketResponse = new TicketResponse(raw);
+                    debug("MerchantService/oneTimeTicket", "TicketResponse", response);
+                    resolve(response);
                 })
                 .catch((error) => {
+                    debug("MerchantService/oneTimeTicket", "MerchantServiceException", error);
                     reject(new MerchantServiceException(error));
                 });
         });
