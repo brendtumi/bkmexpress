@@ -25,15 +25,14 @@ export class MerchantService {
         this.configuration = configuration;
     }
 
-    public login(): Promise<Token | MerchantServiceException> {
+    public login(): Promise<MerchantLoginResponse | MerchantServiceException> {
         const merchantId = this.configuration.MerchantId;
         const sign = EncryptionUtil.sign(this.configuration.MerchantPrivateKey, merchantId);
         const request = new MerchantLoginRequest(merchantId, sign);
         return new Bluebird((resolve, reject) => {
             MerchantApi.login(this.configuration.BexApiConfiguration.BaseUrl, request)
                 .then((raw: RawBexResponse<Token>) => {
-                    const response = new MerchantLoginResponse(raw);
-                    resolve(response.Token);
+                    resolve(new MerchantLoginResponse(raw));
                 })
                 .catch((error) => {
                     reject(new MerchantServiceException(error));
@@ -41,7 +40,7 @@ export class MerchantService {
         });
     }
 
-    public oneTimeTicket(connectionToken: Token, amount: number, installmentUrl?: string, nonceUrl?: string): Promise<Token | MerchantServiceException> {
+    public oneTimeTicket(connectionToken: Token, amount: number, installmentUrl?: string, nonceUrl?: string): Promise<TicketResponse | MerchantServiceException> {
         const ticket = new TicketRequest("payment");
         ticket.Amount = MoneyUtils.toTRY(amount);
         if (installmentUrl) {
@@ -53,8 +52,7 @@ export class MerchantService {
         return new Bluebird((resolve, reject) => {
             MerchantApi.ticket(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, ticket)
                 .then((raw: RawBexResponse<Token>) => {
-                    const response = new TicketResponse(raw);
-                    resolve(response.Token);
+                    resolve(new TicketResponse(raw));
                 })
                 .catch((error) => {
                     reject(new MerchantServiceException(error));
