@@ -7,4 +7,24 @@
 
 import * as Debug from "debug";
 
-export const debug = Debug("bkmexpress");
+const err = Debug("bkmexpress:error");
+const deb = Debug("bkmexpress:debug");
+const info = Debug("bkmexpress:info");
+
+info.log = console.log.bind(console);
+// deb.log = console.debug.bind(console);
+deb.log = console.log.bind(console);
+
+export class Log {
+    public static debug(...args: any[]): void {
+        deb.apply(null, args);
+    }
+
+    public static info(...args: any[]): void {
+        info.apply(null, args);
+    }
+
+    public static error(...args: any[]): void {
+        err.apply(null, args);
+    }
+}

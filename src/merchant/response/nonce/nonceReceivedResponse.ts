@@ -7,7 +7,7 @@
 import {BexResponse, RawBexResponse} from "../bexResponse";
 
 export class NonceReceivedResponse extends BexResponse<string> {
-    public status: string = "OK";
+    public status: string = "ok";
 
     public constructor(obj?: RawBexResponse<string>) {
         super(obj);

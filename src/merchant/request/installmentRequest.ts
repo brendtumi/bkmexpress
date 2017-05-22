@@ -13,9 +13,16 @@ export class InstallmentRequest {
     private ticketId: string;
     private signature: string;
 
+    public constructor(bin: string[], totalAmount: string, ticketId: string, signature: string) {
+        this.bin = bin;
+        this.totalAmount = totalAmount;
+        this.ticketId = ticketId;
+        this.signature = signature;
+    }
+
     public binAndBanks(): BinAndBank[] {
         const binAndBanks = [];
-        for (let bin of this.bin) {
+        for (const bin of this.bin) {
             binAndBanks.push(new BinAndBank(bin));
         }
         return binAndBanks;

@@ -7,7 +7,7 @@
 
 import * as Bluebird from "bluebird";
 import {Configuration} from "../config/configuration";
-import {debug} from "../debug";
+import {Log} from "../debug";
 import {MerchantServiceException} from "../exceptions";
 import {MoneyUtils} from "../moneyUtils";
 import {MerchantApi} from "./merchantApi";
@@ -15,6 +15,9 @@ import {MerchantLoginRequest} from "./request/merchantLoginRequest";
 import {TicketRequest} from "./request/ticketRequest";
 import {RawBexResponse} from "./response/bexResponse";
 import {MerchantLoginResponse} from "./response/merchantLoginResponse";
+import {MerchantNonceResponse} from "./response/nonce/merchantNonceResponse";
+import {NonceResultResponse} from "./response/nonce/nonceResultResponse";
+import {PaymentResultResponse, PosData} from "./response/paymentResultResponse";
 import {TicketResponse} from "./response/ticketResponse";
 import {EncryptionUtil} from "./security";
 import {Token} from "./token";
@@ -31,15 +34,15 @@ export class MerchantService {
         const sign = EncryptionUtil.sign(this.configuration.MerchantPrivateKey, merchantId);
         const request = new MerchantLoginRequest(merchantId, sign);
         return new Bluebird((resolve, reject) => {
-            debug("MerchantService/login", request);
+            Log.debug("MerchantService/login", request);
             MerchantApi.login(this.configuration.BexApiConfiguration.BaseUrl, request)
                 .then((raw: RawBexResponse<Token>) => {
                     const response: MerchantLoginResponse = new MerchantLoginResponse(raw);
-                    debug("MerchantService/login", "MerchantLoginResponse", response);
+                    Log.info("MerchantService/login", "MerchantLoginResponse", response);
                     resolve(response);
                 })
                 .catch((error) => {
-                    debug("MerchantService/login", "MerchantServiceException", error);
+                    Log.debug("MerchantService/login", "MerchantServiceException", error);
                     reject(new MerchantServiceException(error));
                 });
         });
@@ -55,18 +58,49 @@ export class MerchantService {
             ticket.NonceUrl = nonceUrl;
         }
         return new Bluebird((resolve, reject) => {
-            debug("MerchantService/oneTimeTicket", connectionToken, ticket);
+            Log.debug("MerchantService/oneTimeTicket", connectionToken, ticket);
             MerchantApi.ticket(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, ticket)
                 .then((raw: RawBexResponse<Token>) => {
                     const response: TicketResponse = new TicketResponse(raw);
-                    debug("MerchantService/oneTimeTicket", "TicketResponse", response);
+                    Log.info("MerchantService/oneTimeTicket", "TicketResponse", response);
                     resolve(response);
                 })
                 .catch((error) => {
-                    debug("MerchantService/oneTimeTicket", "MerchantServiceException", error);
+                    Log.debug("MerchantService/oneTimeTicket", "MerchantServiceException", error);
                     reject(new MerchantServiceException(error));
                 });
         });
     }
 
+    public sendNonceResponse(connectionToken: Token, request: MerchantNonceResponse): Promise<NonceResultResponse | MerchantServiceException> {
+        return new Bluebird((resolve, reject) => {
+            Log.debug("MerchantService/sendNonceResponse", connectionToken, request);
+            MerchantApi.commit(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, request)
+                .then((raw: RawBexResponse<PosData>) => {
+                    const response: NonceResultResponse = new NonceResultResponse(raw);
+                    Log.info("MerchantService/sendNonceResponse", "NonceResultResponse", response);
+                    resolve(response);
+                })
+                .catch((error) => {
+                    Log.debug("MerchantService/sendNonceResponse", "MerchantServiceException", error);
+                    reject(new MerchantServiceException(error));
+                });
+        });
+    }
+
+    public result(connectionToken: Token, ticketId: string): Promise<PaymentResultResponse | MerchantServiceException> {
+        return new Bluebird((resolve, reject) => {
+            Log.debug("MerchantService/result", connectionToken, ticketId);
+            MerchantApi.result(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, ticketId)
+                .then((raw: RawBexResponse<PosData>) => {
+                    const response: PaymentResultResponse = new PaymentResultResponse(raw);
+                    Log.info("MerchantService/result", "PaymentResultResponse", response);
+                    resolve(response);
+                })
+                .catch((error) => {
+                    Log.debug("MerchantService/result", "MerchantServiceException", error);
+                    reject(new MerchantServiceException(error));
+                });
+        });
+    }
 }
