@@ -1,8 +1,7 @@
 # BKM Express [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status](https://david-dm.org/brendtumi/bkmexpress.svg)](https://david-dm.org/brendtumi/bkmexpress)
 > BKM Express payment system api (Turkey) for node.js
 
-## Developed for Bkm Express Api 1 version. The Bkm Express Api 2 version will be released soon. 
-## Bkm Express Api 1 versiyonu için geliştirildi. Bkm Express Api 2 versiyonu yakında yayınlanacaktır.
+## This sdk for Bkm Express Api 1 version. / Bkm Express Api 1 versiyonu içindir.
 
 #### Not fully tested yet, use your own risk.
 Node.js api for [BKM Express](https://www.bkmexpress.com.tr)
@@ -10,7 +9,7 @@ Node.js api for [BKM Express](https://www.bkmexpress.com.tr)
 ## Install
 Install with [npm](http://github.com/isaacs/npm):
 ```
- npm install bkmexpress
+ npm install bkmexpress@1
 ```
 
 ## Usage
