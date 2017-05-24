@@ -17,9 +17,15 @@ export class InstallmentsResponseData {
     private error: string;
 
     public constructor(obj?: any) {
-        this.installments = obj.installments;
-        this.status = obj.status;
-        this.error = obj.error;
+        if (obj && obj.installments) {
+            this.installments = obj.installments;
+        }
+        if (obj && obj.status) {
+            this.status = obj.status;
+        }
+        if (obj && obj.error) {
+            this.error = obj.error;
+        }
     }
 
     get Installments(): [string, Installment[]] {
@@ -43,6 +49,7 @@ export class InstallmentsResponseData {
     }
 
     set Error(error: string) {
+        this.status = "fail";
         this.error = error;
     }
 
@@ -51,7 +58,7 @@ export class InstallmentsResponseData {
 export class InstallmentsResponse extends BexResponse<InstallmentsResponseData> {
     public constructor(obj?: RawBexResponse<InstallmentsResponseData>) {
         super(obj);
-        this.Data = new InstallmentsResponseData(obj.data);
+        this.Data = new InstallmentsResponseData((obj && obj.data) ? obj.data : null);
     }
 
     set Installments(installments: [string, Installment[]]) {

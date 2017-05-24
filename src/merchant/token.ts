@@ -11,9 +11,15 @@ export class Token {
     private token: string;
 
     public constructor(obj?: { id: string, shortId: string, path: string, token: string } | any) {
-        this.shortId = obj.id || obj.shortId;
-        this.path = obj.path;
-        this.token = obj.token;
+        if (obj && (obj.id || obj.shortId)) {
+            this.shortId = obj.id || obj.shortId;
+        }
+        if (obj && obj.path) {
+            this.path = obj.path;
+        }
+        if (obj && obj.token) {
+            this.token = obj.token;
+        }
     }
 
     get ShortId(): string {

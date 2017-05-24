@@ -29,13 +29,27 @@ export class BexResponse<T> {
     protected data?: T;
 
     public constructor(obj?: RawBexResponse<T>) {
-        this.Message = obj.message;
-        this.Result = obj.result;
-        this.Code = obj.code;
-        this.Call = obj.call;
-        this.Description = obj.description;
-        this.Parameters = obj.parameters;
-        this.Data = obj.data;
+        if (obj && obj.message) {
+            this.message = obj.message;
+        }
+        if (obj && obj.result) {
+            this.result = obj.result;
+        }
+        if (obj && obj.code) {
+            this.code = obj.code;
+        }
+        if (obj && obj.call) {
+            this.call = obj.call;
+        }
+        if (obj && obj.description) {
+            this.description = obj.description;
+        }
+        if (obj && obj.parameters) {
+            this.parameters = obj.parameters;
+        }
+        if (obj && obj.data) {
+            this.data = obj.data;
+        }
     }
 
     get Message(): string {

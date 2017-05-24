@@ -65,16 +65,17 @@ export class PosData {
     private posResult: PosResult;
 
     public constructor(obj?: any) {
-        this.status = obj.status;
-        this.paymentPurchased = obj.paymentPurchased;
-        this.installmentCount = obj.installmentCount;
-        this.totalAmount = obj.totalAmount;
-        this.cardFirst6 = obj.cardFirst6;
-        this.cardLast4 = obj.cardLast4;
-        this.cardHash = obj.cardHash;
-        this.bkmTokenId = obj.bkmTokenId;
-        this.posResult = new PosResult(obj.posResult);
-
+        if (obj) {
+            this.status = obj.status;
+            this.paymentPurchased = obj.paymentPurchased;
+            this.installmentCount = obj.installmentCount;
+            this.totalAmount = obj.totalAmount;
+            this.cardFirst6 = obj.cardFirst6;
+            this.cardLast4 = obj.cardLast4;
+            this.cardHash = obj.cardHash;
+            this.bkmTokenId = obj.bkmTokenId;
+            this.posResult = new PosResult(obj.posResult);
+        }
     }
 
     get Status(): string {
