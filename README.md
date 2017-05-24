@@ -41,6 +41,7 @@ npm test
 ```
 
 ## Contributors
+We welcome contributions of all kinds from anyone. 
 * Author: [Tümay Çeber](https://github.com/brendtumi)
 
 [v1-url]: https://github.com/brendtumi/bkmexpress/tree/1.x/README.md
