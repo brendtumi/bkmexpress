@@ -7,25 +7,25 @@
 
 /* tslint:disable:max-classes-per-file */
 export class RawBexResponse<T> {
-    public call?: string;
-    public result?: string;
-    public code?: string;
+    public call?: string | null = null;
+    public result?: string | null = null;
+    public code?: string | null = null;
     public message?: string;
-    public description?: string;
+    public description?: string | null = null;
     // TODO: type Map<String, Object>
-    public parameters?: any;
-    public data?: T;
-    public error?: string;
+    public parameters?: any | null = null;
+    public data?: T | null = null;
+    public error?: string = "";
 }
 
 export class BexResponse<T> {
-    protected call?: string;
-    protected result?: string;
-    protected code?: string;
+    protected call?: string | null = null;
+    protected result?: string | null = null;
+    protected code?: string | null = null;
     protected message?: string;
-    protected description?: string;
+    protected description?: string | null = null;
     // TODO: type Map<String, Object>
-    protected parameters?: any;
+    protected parameters?: any | null = null;
     protected data?: T;
 
     public constructor(obj?: RawBexResponse<T>) {

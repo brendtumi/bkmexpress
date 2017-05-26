@@ -13,8 +13,8 @@ import {Installment} from "./installment";
 export class InstallmentsResponseData {
 
     private installments: [string, Installment[]];
-    private status: string;
-    private error: string;
+    private status: string = "";
+    private error: string = "";
 
     public constructor(obj?: any) {
         if (obj && obj.installments) {
@@ -49,7 +49,6 @@ export class InstallmentsResponseData {
     }
 
     set Error(error: string) {
-        this.status = "fail";
         this.error = error;
     }
 

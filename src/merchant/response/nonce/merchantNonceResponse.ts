@@ -9,7 +9,7 @@ export class MerchantNonceResponse {
     private result: boolean;
     private nonce: string;
     private id: string;
-    private message: string;
+    private message: string = "";
 
     get Result(): boolean {
         return this.result;

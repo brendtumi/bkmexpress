@@ -1,20 +1,20 @@
 export declare class RawBexResponse<T> {
-    call?: string;
-    result?: string;
-    code?: string;
+    call?: string | null;
+    result?: string | null;
+    code?: string | null;
     message?: string;
-    description?: string;
-    parameters?: any;
-    data?: T;
+    description?: string | null;
+    parameters?: any | null;
+    data?: T | null;
     error?: string;
 }
 export declare class BexResponse<T> {
-    protected call?: string;
-    protected result?: string;
-    protected code?: string;
+    protected call?: string | null;
+    protected result?: string | null;
+    protected code?: string | null;
     protected message?: string;
-    protected description?: string;
-    protected parameters?: any;
+    protected description?: string | null;
+    protected parameters?: any | null;
     protected data?: T;
     constructor(obj?: RawBexResponse<T>);
     Message: string;

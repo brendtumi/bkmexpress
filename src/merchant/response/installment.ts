@@ -9,7 +9,7 @@ export class Installment {
     private numberOfInstallment: string;
     private installmentAmount: string;
     private totalAmount: string;
-    private label: string;
+    private label: string | null = null;
     private vposConfig: string;
 
     public constructor(numberOfInstallment: string, installmentAmount: string, totalAmount: string, vposConfig: string) {
