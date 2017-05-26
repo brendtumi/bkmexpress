@@ -13,6 +13,10 @@ export class VposConfig {
     private serviceUrl: string;
     private preAuth: boolean;
 
+    public constructor() {
+        this.extra = {};
+    }
+
     public addExtra(key: string, value: string) {
         this.extra[key] = value;
     }

@@ -5,6 +5,7 @@ export declare class VposConfig {
     private bankIndicator;
     private serviceUrl;
     private preAuth;
+    constructor();
     addExtra(key: string, value: string): void;
     addSubMerchant(name: string): void;
     addSubMerchantForFinans(name: string, id: string, postalCode: string, city: string, country: string): void;
