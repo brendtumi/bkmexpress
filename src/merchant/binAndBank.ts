@@ -10,14 +10,13 @@ export class BinAndBank {
     private bin: string;
     private bankCode: string;
 
-    public constructor(...binAndBank: string[]) {
+    public constructor(binAndBank: string) {
         if (binAndBank.indexOf("@") > -1) {
-            const split: string[] = binAndBank[0].split("@");
-            this.bin = split[0];
-            this.bankCode = split[1];
+            [this.bin, this.bankCode] = binAndBank.split("@");
         }
         else {
-            [this.bin, this.bankCode] = binAndBank;
+            this.bin = binAndBank.substr(0, 6);
+            this.bankCode = binAndBank.substr(6, 4);
         }
     }
 
