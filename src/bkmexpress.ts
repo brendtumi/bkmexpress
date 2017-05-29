@@ -5,6 +5,8 @@
  */
 
 /* tslint:disable:no-var-requires */
+require("source-map-support").install();
+
 const pkg: any = require("../package.json");
 export const version: string = pkg.version;
 export * from "./enums";
