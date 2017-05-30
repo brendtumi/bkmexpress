@@ -9,7 +9,7 @@ var fs = require("fs");
 
 describe("BKM Express SDK version 2", function () {
     var merchantSecretKey = fs.readFileSync("./test/" + process.env.merchantSecretKey).toString();
-    var environment = Bex.Environment[process.env.enviroment];
+    var environment = Bex.Environment[process.env.environment];
     var merchantId = process.env.merchantId;
     var testString = "This is test string";
     var privateKey = fs.readFileSync("./test/privatePKCS8.pem").toString();
