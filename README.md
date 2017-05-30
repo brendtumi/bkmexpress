@@ -238,7 +238,7 @@ npm test
 
 ## Contributors
 We welcome contributions of all kinds from anyone. 
-* Author: [Tümay Çeber](https://github.com/brendtumi)
+* Author: [Tümay Çeber](https://github.com/brendtumi) [![](https://img.shields.io/gratipay/user/brendtumi.svg)]()
 
 [v1-url]: https://github.com/brendtumi/bkmexpress/tree/1.x/README.md
 [bkm-url]: https://www.bkmexpress.com.tr
