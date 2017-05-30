@@ -84,10 +84,10 @@ router.post('/bkm/installments', function (req, res) {
                 var vposConfig = new Bex.VposConfig();
                 vposConfig.BankIndicator = bankCode;
                 vposConfig.VposUserId = "akapi";
-                vposConfig.setVposPassword = "TEST1234";
+                vposConfig.VposPassword = "TEST1234";
                 vposConfig.addExtra("ClientId", "100111222");
                 vposConfig.addExtra("storekey", "TEST1234");
-                vposConfig.setServiceUrl = "http://srvirt01:7200/akbank";
+                vposConfig.ServiceUrl = "http://srvirt01:7200/akbank";
 
                 var installment = new Bex.Installment("1", Bex.MoneyUtils.toTRY(amount), Bex.MoneyUtils.toTRY(amount), Bex.EncryptionUtil.encryptWithBex(vposConfig));
                 installmentsForThisBin.push(installment);
