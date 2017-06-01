@@ -44,12 +44,12 @@ describe("BKM Express SDK version 2", function () {
             {k: 10004.788, v: "10004,79"}
         ];
         it("Float to TRY", function () {
-            for (let test of sample) {
+            for (var test of sample) {
                 Bex.MoneyUtils.toTRY(test.k).should.be.an.equal(test.v);
             }
         });
         it("TRY to Float", function () {
-            for (let test of sample) {
+            for (var test of sample) {
                 Bex.MoneyUtils.toNumber(test.v).should.be.an.equal(Math.round(test.k * 100) / 100);
             }
         });
