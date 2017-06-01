@@ -34,22 +34,24 @@ describe("BKM Express SDK version 2", function () {
 
     describe("Utilities", function () {
         var sample = [
-            {k: 1, v: "1,00"},
-            {k: 32, v: "32,00"},
-            {k: 23.3, v: "23,30"},
-            {k: 23.78, v: "23,78"},
-            {k: 54.768, v: "54,77"},
-            {k: 1000.7, v: "1000,70"},
+            {k: 10004.788, v: "10004,79"},
             {k: 1000.78, v: "1000,78"},
-            {k: 10004.788, v: "10004,79"}
+            {k: 1000.7, v: "1000,70"},
+            {k: 54.768, v: "54,77"},
+            {k: 23.78, v: "23,78"},
+            {k: 23.3, v: "23,30"},
+            {k: 32, v: "32,00"},
+            {k: 1, v: "1,00"},
         ];
         it("Float to TRY", function () {
-            for (var test of sample) {
+            for (var i = 0; i < sample.length; i++) {
+                var test = sample[i];
                 Bex.MoneyUtils.toTRY(test.k).should.be.an.equal(test.v);
             }
         });
         it("TRY to Float", function () {
-            for (var test of sample) {
+            for (var i = 0; i < sample.length; i++) {
+                var test = sample[i];
                 Bex.MoneyUtils.toNumber(test.v).should.be.an.equal(Math.round(test.k * 100) / 100);
             }
         });
