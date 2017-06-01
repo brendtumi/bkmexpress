@@ -33,7 +33,7 @@ describe("BKM Express SDK version 2", function () {
     });
 
     describe("Utilities", function () {
-        const sample = [
+        var sample = [
             {k: 1, v: "1,00"},
             {k: 32, v: "32,00"},
             {k: 23.3, v: "23,30"},
