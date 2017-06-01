@@ -56,9 +56,9 @@
     "source-map-support": "^0.4.15"
   },
   "devDependencies": {
-    "@types/chai": "^3.5.2",
+    "@types/chai": "3.5.x",
     "@types/mocha": "^2.2.41",
-    "chai": "^3.5.0",
+    "chai": "3.5.x",
     "rimraf": "^2.6.1"
   },
   "engines": {
