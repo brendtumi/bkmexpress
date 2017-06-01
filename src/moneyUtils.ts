@@ -9,8 +9,7 @@ import {MoneyUtilException} from "./exceptions";
 export class MoneyUtils {
     public static toTRY(amount: number): string {
         let formatted: string = amount.toLocaleString("tr-TR", {style: "currency", currency: "TRY", currencyDisplay: "code"});
-        formatted = formatted.replace(/,/i, "");
-        formatted = formatted.replace("TRY", "");
+        formatted = formatted.replace(/TRY|,|\s+/gi, "");
         formatted = formatted.replace(/\./i, ",");
         return MoneyUtils.validate(formatted);
     }
