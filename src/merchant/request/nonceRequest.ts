@@ -6,14 +6,67 @@
  */
 
 // tslint:disable:max-classes-per-file
-
 export interface INonceData {
-    TicketId: string;
-    OrderId: string;
-    TotalAmount: string;
-    TotalAmountWithInstallmentCharge: string;
-    NumberOfInstallments: number;
-    Hash: string;
+    ticketId: string;
+    orderId: string;
+    totalAmount: string;
+    totalAmountWithInstallmentCharge: string;
+    numberOfInstallments: number;
+    hash: string;
+}
+
+export class NonceData {
+    private ticketId: string;
+    private orderId: string;
+    private totalAmount: string;
+    private totalAmountWithInstallmentCharge: string;
+    private numberOfInstallments: number;
+    private hash: string;
+
+    public constructor(reply?: INonceData) {
+        if (reply && reply.ticketId) {
+            this.ticketId = reply.ticketId;
+        }
+        if (reply && reply.orderId) {
+            this.orderId = reply.orderId;
+        }
+        if (reply && reply.totalAmount) {
+            this.totalAmount = reply.totalAmount;
+        }
+        if (reply && reply.totalAmountWithInstallmentCharge) {
+            this.totalAmountWithInstallmentCharge = reply.totalAmountWithInstallmentCharge;
+        }
+        if (reply && reply.numberOfInstallments) {
+            this.numberOfInstallments = reply.numberOfInstallments;
+        }
+        if (reply && reply.hash) {
+            this.hash = reply.hash;
+        }
+    }
+
+    get TicketId(): string {
+        return this.ticketId;
+    }
+
+    get OrderId(): string {
+        return this.orderId;
+    }
+
+    get TotalAmount(): string {
+        return this.totalAmount;
+    }
+
+    get TotalAmountWithInstallmentCharge(): string {
+        return this.totalAmountWithInstallmentCharge;
+    }
+
+    get NumberOfInstallments(): number {
+        return this.numberOfInstallments;
+    }
+
+    get Hash(): string {
+        return this.hash;
+    }
 }
 
 export class NonceRequest {
@@ -23,7 +76,7 @@ export class NonceRequest {
     private approver: string;
     private token: string;
     private signature: string;
-    private reply: INonceData;
+    private reply: NonceData;
 
     public constructor(id: string, path: string, issuer: string, approver: string, token: string, signature: string, reply: INonceData) {
         this.id = id;
@@ -32,7 +85,7 @@ export class NonceRequest {
         this.approver = approver;
         this.token = token;
         this.signature = signature;
-        this.reply = reply;
+        this.reply = new NonceData(reply);
     }
 
     get Id() {
