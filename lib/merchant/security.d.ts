@@ -1,6 +1,6 @@
 /// <reference types="node" />
-import { VposConfig } from "./request/vposConfig";
 import { RsaPublicKey } from "crypto";
+import { VposConfig } from "./request/vposConfig";
 export declare class EncryptionUtil {
     static sign(privateKey: string, data: string): string;
     static verify(publicKey: string, data: string, signature: string): boolean;

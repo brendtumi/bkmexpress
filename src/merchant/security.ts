@@ -6,19 +6,18 @@
  */
 
 import {Buffer} from "buffer";
-import * as crypto from "crypto";
-import * as constants from "constants";
+import {RSA_PKCS1_PADDING} from "constants";
+import {createSign, createVerify, privateDecrypt, publicEncrypt, RsaPublicKey} from "crypto";
 import * as semver from "semver";
 import {VposConfig} from "./request/vposConfig";
 const nodeVersion = semver.clean(process.version);
 import {EncryptionException} from "../exceptions";
-import {RsaPublicKey} from "crypto";
 
 export class EncryptionUtil {
 
     public static sign(privateKey: string, data: string): string {
         try {
-            const sign = crypto.createSign("RSA-SHA256");
+            const sign = createSign("RSA-SHA256");
             sign.update(data);
             return sign.sign(privateKey, "base64");
         }
@@ -29,7 +28,7 @@ export class EncryptionUtil {
 
     public static verify(publicKey: string, data: string, signature: string): boolean {
         try {
-            const verify = crypto.createVerify("RSA-SHA256");
+            const verify = createVerify("RSA-SHA256");
             verify.update(data);
             return verify.verify(publicKey, signature, "base64");
         }
@@ -44,7 +43,7 @@ export class EncryptionUtil {
             let crypt: Buffer;
 
             if (semver.gte(nodeVersion, "0.11.14")) {
-                crypt = crypto.publicEncrypt(publicKey, plainBuffer);
+                crypt = publicEncrypt(publicKey, plainBuffer);
             }
             else {
                 const NodeRSA: any = require("node-rsa");
@@ -64,7 +63,7 @@ export class EncryptionUtil {
             let crypt: Buffer;
 
             if (semver.gte(nodeVersion, "0.11.14")) {
-                crypt = crypto.privateDecrypt(privateKey, plainBuffer);
+                crypt = privateDecrypt(privateKey, plainBuffer);
             }
             else {
                 const NodeRSA: any = require("node-rsa");
@@ -105,7 +104,7 @@ export class EncryptionUtil {
     }
 
     private static get PublicKey(): RsaPublicKey {
-        return {key: EncryptionUtil.publicKey, padding: constants.RSA_PKCS1_PADDING};
+        return {key: EncryptionUtil.publicKey, padding: RSA_PKCS1_PADDING};
     }
 
     private static publicKey = `-----BEGIN PUBLIC KEY-----
