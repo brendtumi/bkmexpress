@@ -9,7 +9,7 @@
 npm install bkmexpress@latest
 ```
 
-## Sample
+## [Sample](https://github.com/brendtumi/bkmexpress-sample)
 
 ### Express Router
 ```javascript
