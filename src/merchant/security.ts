@@ -7,10 +7,12 @@
 
 import {Buffer} from "buffer";
 import * as crypto from "crypto";
+import * as constants from "constants";
 import * as semver from "semver";
 import {VposConfig} from "./request/vposConfig";
 const nodeVersion = semver.clean(process.version);
 import {EncryptionException} from "../exceptions";
+import {RsaPublicKey} from "crypto";
 
 export class EncryptionUtil {
 
@@ -36,7 +38,7 @@ export class EncryptionUtil {
         }
     }
 
-    public static encrypt(publicKey: string, plaintext: string): string {
+    public static encrypt(publicKey: string | RsaPublicKey, plaintext: string): string {
         try {
             const plainBuffer: Buffer = EncryptionUtil.bufferFromString(plaintext);
             let crypt: Buffer;
@@ -82,10 +84,15 @@ export class EncryptionUtil {
 
     public static encryptWithBex(vposConfig: VposConfig | string): string {
         if (vposConfig instanceof VposConfig) {
-            return EncryptionUtil.encrypt(EncryptionUtil.publicKey, JSON.stringify(vposConfig));
+            const data = JSON.stringify(vposConfig);
+            let encrypted: string = "";
+            for (let i = 0; i <= data.length / 245; i++) {
+                encrypted += EncryptionUtil.encrypt(EncryptionUtil.PublicKey, data.substr(i * 245, (i + 1) * 245)) + "|:*:|";
+            }
+            return encrypted;
         }
         else {
-            return EncryptionUtil.encrypt(EncryptionUtil.publicKey, vposConfig);
+            return EncryptionUtil.encrypt(EncryptionUtil.PublicKey, vposConfig);
         }
     }
 
@@ -95,6 +102,10 @@ export class EncryptionUtil {
 
     public static decode64(data: string): string {
         return EncryptionUtil.bufferFromString(data, "base64").toString();
+    }
+
+    private static get PublicKey(): RsaPublicKey {
+        return {key: EncryptionUtil.publicKey, padding: constants.RSA_PKCS1_PADDING};
     }
 
     private static publicKey = `-----BEGIN PUBLIC KEY-----
