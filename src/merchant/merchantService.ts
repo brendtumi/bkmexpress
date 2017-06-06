@@ -58,7 +58,8 @@ export class MerchantService {
             ticket.NonceUrl = nonceUrl;
         }
         return new Bluebird((resolve, reject) => {
-            Log.debug("MerchantService/oneTimeTicket", connectionToken, ticket);
+            Log.debug("MerchantService/oneTimeTicket", "connectionToken", connectionToken);
+            Log.debug("MerchantService/oneTimeTicket", "ticket", ticket);
             MerchantApi.ticket(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, ticket)
                 .then((raw: RawBexResponse<Token>) => {
                     const response: TicketResponse = new TicketResponse(raw);
@@ -74,7 +75,8 @@ export class MerchantService {
 
     public sendNonceResponse(connectionToken: Token, request: MerchantNonceResponse): Promise<NonceResultResponse | MerchantServiceException> {
         return new Bluebird((resolve, reject) => {
-            Log.debug("MerchantService/sendNonceResponse", connectionToken, request);
+            Log.debug("MerchantService/sendNonceResponse", "connectionToken", connectionToken);
+            Log.debug("MerchantService/sendNonceResponse", "MerchantNonceResponse", request);
             MerchantApi.commit(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, request)
                 .then((raw: RawBexResponse<PosData>) => {
                     const response: NonceResultResponse = new NonceResultResponse(raw);
@@ -90,7 +92,8 @@ export class MerchantService {
 
     public result(connectionToken: Token, ticketId: string): Promise<PaymentResultResponse | MerchantServiceException> {
         return new Bluebird((resolve, reject) => {
-            Log.debug("MerchantService/result", connectionToken, ticketId);
+            Log.debug("MerchantService/result", "connectionToken", connectionToken);
+            Log.debug("MerchantService/result", "ticketId", ticketId);
             MerchantApi.result(this.configuration.BexApiConfiguration.BaseUrl, connectionToken, ticketId)
                 .then((raw: RawBexResponse<PosData>) => {
                     const response: PaymentResultResponse = new PaymentResultResponse(raw);

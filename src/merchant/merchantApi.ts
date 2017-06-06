@@ -46,6 +46,15 @@ export class MerchantApi {
         return request(`merchant/${token.Path}/ticket?type=${body.Type}`, opts);
     }
 
+    public static commit(baseUrl: string, token: Token, body: MerchantNonceResponse): Promise<RawBexResponse<PosData> | Error> {
+        if (!(token instanceof Token)) {
+            throw new MerchantServiceException("Token value invalid");
+        }
+        const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, body, headers: {"Bex-Connection": token.Token, "Bex-Nonce": body.Nonce}});
+        Log.debug("MerchantApi", `merchant/${token.Path}/ticket/${body.Id}/operate?name=commit`, opts);
+        return request(`merchant/${token.Path}/ticket/${body.Id}/operate?name=commit`, opts);
+    }
+
     public static result(baseUrl: string, token: Token, ticketId: string): Promise<RawBexResponse<PosData> | Error> {
         if (!(token instanceof Token)) {
             throw new MerchantServiceException("Token value invalid");
@@ -53,16 +62,6 @@ export class MerchantApi {
         const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, headers: {"Bex-Connection": token.Token}});
         Log.debug("MerchantApi", `merchant/${token.Path}/ticket/${ticketId}/operate?name=result`, opts);
         return request(`merchant/${token.Path}/ticket/${ticketId}/operate?name=result`, opts);
-
-    }
-
-    public static commit(baseUrl: string, token: Token, body: MerchantNonceResponse): Promise<RawBexResponse<PosData> | Error> {
-        if (!(token instanceof Token)) {
-            throw new MerchantServiceException("Token value invalid");
-        }
-        const opts: CoreOptions = extend(MerchantApi.opts, {baseUrl, headers: {"Bex-Connection": token.Token, "Bex-Nonce": body.Nonce}});
-        Log.debug("MerchantApi", `merchant/${token.Path}/ticket/${body.Id}/operate?name=commit`, opts);
-        return request(`merchant/${token.Path}/ticket/${body.Id}/operate?name=commit`, opts);
     }
 
 }

@@ -10,6 +10,6 @@ export declare class MerchantApi {
     static opts: CoreOptions;
     static login(baseUrl: string, body: MerchantLoginRequest): Promise<RawBexResponse<Token> | Error>;
     static ticket(baseUrl: string, token: Token, body: TicketRequest): Promise<RawBexResponse<Token> | Error>;
-    static result(baseUrl: string, token: Token, ticketId: string): Promise<RawBexResponse<PosData> | Error>;
     static commit(baseUrl: string, token: Token, body: MerchantNonceResponse): Promise<RawBexResponse<PosData> | Error>;
+    static result(baseUrl: string, token: Token, ticketId: string): Promise<RawBexResponse<PosData> | Error>;
 }
