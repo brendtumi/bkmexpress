@@ -1,44 +1,45 @@
 # BKM Express [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status](https://david-dm.org/brendtumi/bkmexpress.svg)](https://david-dm.org/brendtumi/bkmexpress)
 > [BKM Express](https://www.bkmexpress.com.tr) payment system sdk (Turkey) for Node.js 
 
-##### *v1.x.x dokümantasyon için [Buraya tıklayınız][v1-url]*
-##### *For v1.x.x documentation, go [HERE][v1-url]*
+> *v1.x.x dokümantasyon için [Buraya tıklayınız][v1-url]*
+> *For v1.x.x documentation, go [HERE][v1-url]*
 
 ## Install
 ```bash
-npm install bkmexpress@latest
+npm install bkmexpress
 ```
 
 ## [Sample](https://github.com/brendtumi/bkmexpress-sample)
 
 ### Express Router
 ```javascript
-var express = require('express');
-var router = express.Router();
-var fs = require("fs");
+const express = require('express');
+const router = express.Router();
+const debug = require('debug')('test:app');
+const fs = require("fs");
 
-var Bex = require("bkmexpress");
+const Bex = require("bkmexpress");
 
-var privateKey = "PRIVATE-KEY";
-var merchantId = "YOUR-MERCHANT-ID"; 
+const privateKey = "PRIVATE-KEY";
+const merchantId = "YOUR-MERCHANT-ID"; 
 
 // Kendinize özel end-point url'leri
-var urlBase = "YOUR-SERVER-ADDRESS";
-var urlForInstallments = urlBase + "/bkm/installments";
-var urlForNonce = urlBase + "/bkm/nonce";
+const urlBase = "YOUR-SERVER-ADDRESS";
+const urlForInstallments = urlBase + "/bkm/installments";
+const urlForNonce = urlBase + "/bkm/nonce";
 // --
 
 // Connection Token'ın Alınabilmesi için Gerekli Konfigürasyonun Yapılması
-var config = Bex.BexPayment.startBexPayment(Bex.Environment.SANDBOX, merchantId, privateKey);
+const config = Bex.BexPayment.startBexPayment(Bex.Environment.SANDBOX, merchantId, privateKey);
 
 router.get('/', function (req, res, next) {
-    var merchantService = new Bex.MerchantService(config);
+    const merchantService = new Bex.MerchantService(config);
 
     // Connection Token'ın Alınması
     merchantService.login()
-        .then(function (response) {
+        .then(function (loginResponse) {
             // Ticket Token'ı Üretilmesi
-            var ticketResponse = merchantService.oneTimeTicket(response.Token, 1, urlForInstallments, urlForNonce);
+            const ticketResponse = merchantService.oneTimeTicket(loginResponse.Token, 1, urlForInstallments, urlForNonce);
             ticketResponse
                 .then(function (response2) {
 
@@ -54,34 +55,36 @@ router.get('/', function (req, res, next) {
                     });
                 })
                 .catch(function (err) {
-                    console.error("merchantService/oneTimeTicket", "ticketResponse", err);
+                    debug("merchantService/oneTimeTicket", "ticketResponse", err);
                     next(err);
                 });
         })
         .catch(function (err) {
-            console.error("merchantService/login", "MerchantLoginResponse", err);
+            debug("merchantService/login", "MerchantLoginResponse", err);
             next(err);
         });
 });
-
 router.post('/bkm/installments', function (req, res) {
     // Endpoint'in Oluşturulması
+    debug("Request from BKM", req.body);
+
     if (req.body.bin && req.body.totalAmount && req.body.ticketId && req.body.signature) {
 
-        var request = new Bex.InstallmentRequest(req.body.bin, req.body.totalAmount, req.body.ticketId, req.body.signature);
-        var response = new Bex.InstallmentsResponse();
+        const request = new Bex.InstallmentRequest(req.body.bin, req.body.totalAmount, req.body.ticketId, req.body.signature);
+        const response = new Bex.InstallmentsResponse();
 
         if (Bex.EncryptionUtil.verifyBexSign(request.TicketId, request.Signature)) {
 
-            var amount = Bex.MoneyUtils.toNumber(request.TotalAmount);
-            var allInstallmentsForEveryBin = {};
+            let amount = Bex.MoneyUtils.toNumber(request.TotalAmount);
+            let allInstallmentsForEveryBin = {};
 
-            for (var binAndBank of request.binAndBanks()) {
-                var bankCode = binAndBank.BankCode;
-                var installmentsForThisBin = [];
+            for (let binAndBank of request.binAndBanks()) {
+                let bankCode = binAndBank.BankCode;
+                let installmentsForThisBin = [];
 
-                // İşlem her banka ve taksit için tekrar edilmeli
-                var vposConfig = new Bex.VposConfig();
+                // baska bankalar icin vpos hazirlama
+
+                let vposConfig = new Bex.VposConfig();
                 vposConfig.BankIndicator = bankCode;
                 vposConfig.VposUserId = "akapi";
                 vposConfig.VposPassword = "TEST1234";
@@ -89,85 +92,93 @@ router.post('/bkm/installments', function (req, res) {
                 vposConfig.addExtra("storekey", "TEST1234");
                 vposConfig.ServiceUrl = "http://srvirt01:7200/akbank";
 
-                var installment = new Bex.Installment("1", Bex.MoneyUtils.toTRY(amount), Bex.MoneyUtils.toTRY(amount), Bex.EncryptionUtil.encryptWithBex(vposConfig));
+                let installment = new Bex.Installment("1", Bex.MoneyUtils.toTRY(amount), Bex.MoneyUtils.toTRY(amount), Bex.EncryptionUtil.encryptWithBex(vposConfig));
                 installmentsForThisBin.push(installment);
-                // ---
-                
+                // - end
                 allInstallmentsForEveryBin[binAndBank.Bin] = installmentsForThisBin;
             }
 
             response.Installments = allInstallmentsForEveryBin;
             response.Status = "ok";
             response.Error = "";
+            debug("Response", JSON.stringify(response));
             res.json(response);
         }
         else {
             response.Status = "fail";
             response.Error = "signature verification failed";
+            debug("Response", JSON.stringify(response));
             res.json(response);
         }
     }
     else {
-        var response = new Bex.InstallmentsResponse();
+        const response = new Bex.InstallmentsResponse();
         response.Status = "fail";
         response.Error = "RequestBody fields cannot be null or signature verification failed";
+        debug("Response", JSON.stringify(response));
         res.json(response);
     }
 
 });
 
-function checkPayment(request) {
-    var merchantNonceResponse = new Bex.MerchantNonceResponse();
-    var merchantService = new Bex.MerchantService(config);
+function checkPayment(nonceRequest) {
+    debug("NonceRequest", nonceRequest);
+    const merchantNonceResponse = new Bex.MerchantNonceResponse();
+    const merchantService = new Bex.MerchantService(config);
     merchantService.login()
-        .then(function (response) {
-            if (Bex.EncryptionUtil.verifyBexSign(request.TicketId, request.Signature)) {
+        .then(function (loginResponse) {
+            if (Bex.EncryptionUtil.verifyBexSign(nonceRequest.TicketId, nonceRequest.Signature)) {
+                debug("verifyBexSign", "OK");
                 // İşlemin hala geçerliliğinin korunup, korumadığı kontrol edilir.
                 // ....
                 // basarili nonce cevabı
 
                 merchantNonceResponse.Result = true;
-                merchantNonceResponse.Nonce = request.Token;
-                merchantNonceResponse.Id = request.Path;
+                merchantNonceResponse.Nonce = nonceRequest.Token;
+                merchantNonceResponse.Id = nonceRequest.Path;
                 merchantNonceResponse.Message = "YOUR-MESSAGE-WILL-BE-STORED-IN-BKM";
-                merchantService.sendNonceResponse(response.Token, merchantNonceResponse)
+
+                debug("merchantNonceResponse", merchantNonceResponse);
+
+                merchantService.sendNonceResponse(loginResponse.Token, merchantNonceResponse)
                     .then(function (response) {
-                        console.info("merchantService/sendNonceResponse", "NonceResultResponse", response);
+                        debug("merchantService/sendNonceResponse", "NonceResultResponse", response);
                     })
                     .catch(function (err) {
-                        console.error("merchantService/sendNonceResponse", "NonceResultResponse", err);
+                        debug("merchantService/sendNonceResponse", "NonceResultResponse", err);
                     });
             }
             else {
+                debug("verifyBexSign", "FAIL");
                 merchantNonceResponse.Result = false;
-                merchantNonceResponse.Nonce = request.Token;
-                merchantNonceResponse.Id = request.Path;
+                merchantNonceResponse.Nonce = nonceRequest.Token;
+                merchantNonceResponse.Id = nonceRequest.Path;
                 merchantNonceResponse.Message = "Signature verification failed";
-                merchantService.sendNonceResponse(response.Token, merchantNonceResponse)
+                merchantService.sendNonceResponse(loginResponse.Token, merchantNonceResponse)
                     .then(function (response) {
-                        console.info("merchantService/sendNonceResponse", "NonceResultResponse", response);
+                        debug("merchantService/sendNonceResponse", "NonceResultResponse", response);
                     })
                     .catch(function (err) {
-                        console.error("merchantService/sendNonceResponse", "NonceResultResponse", err);
+                        debug("merchantService/sendNonceResponse", "NonceResultResponse", err);
                     });
             }
-
         })
         .catch(function (err) {
-            console.error("merchantService/login", "MerchantLoginResponse", err);
+            debug("merchantService/login", "MerchantLoginResponse", err);
         });
-
 }
 
 router.post('/bkm/nonce', function (req, res) {
-    var response = new Bex.NonceReceivedResponse();
+    debug("nonce", {method: req.method, query: req.query, params: req.params, body: req.body});
+    const response = new Bex.NonceReceivedResponse();
     if (req.body.id && req.body.path && req.body.issuer && req.body.approver && req.body.token && req.body.signature && req.body.reply) {
         // asenkron işlemden önce Nonce isteğinin başarılı olarak alındığı iletilmelidir.
         response.Result = "ok";
         response.Data = "ok";
         res.json(response);
+        debug("Nonce Response", JSON.stringify(response));
 
-        var request = new Bex.NonceRequest(req.body.id, req.body.path, req.body.issuer, req.body.approver, req.body.token, req.body.signature, req.body.reply);
+        const request = new Bex.NonceRequest(req.body.id, req.body.path, req.body.issuer, req.body.approver, req.body.token, req.body.signature, req.body.reply);
         // asenkron bir işlem ile işlem kontrolleri yapılmalıdır.
         checkPayment(request);
     }
@@ -177,13 +188,13 @@ router.post('/bkm/nonce', function (req, res) {
         res.json(response);
     }
 });
-
-router.get('/result/:ticket', function (req, res) {
+router.get('/result/:ticketPath', function (req, res) {
+    debug("nonce", {method: req.method, query: req.query, params: req.params, body: req.body});
     // Ödeme İşlemi Sorgulama Endpoint'i Örneği
-    var merchantService = new Bex.MerchantService(config);
+    const merchantService = new Bex.MerchantService(config);
     merchantService.login()
-        .then(function (response) {
-            merchantService.result(response.Token, req.params.ticket)
+        .then(function (loginResponse) {
+            merchantService.result(loginResponse.Token, req.params.ticketPath)
                 .then(function (result) {
                     res.send(result);
                 })
@@ -222,6 +233,7 @@ html
                 },
                 onComplete: function (status) {
                     console.log("ödeme tamamlandığında yapılacak işlemler için kullanılacak callback", status);
+                    document.location.href = "/result/" + ticketPathForInit;
                 }
             });
 ```
