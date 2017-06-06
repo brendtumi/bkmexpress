@@ -1,7 +1,8 @@
-# BKM Express [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status](https://david-dm.org/brendtumi/bkmexpress.svg)](https://david-dm.org/brendtumi/bkmexpress)
+# BKM Express [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][deps-image]][deps-url]
 > [BKM Express](https://www.bkmexpress.com.tr) payment system sdk (Turkey) for Node.js 
 
 > *v1.x.x dokümantasyon için [Buraya tıklayınız][v1-url]*
+> /
 > *For v1.x.x documentation, go [HERE][v1-url]*
 
 ## Install
@@ -13,9 +14,9 @@ npm install bkmexpress
 
 ### Express Router
 ```javascript
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const debug = require('debug')('test:app');
+const debug = require("debug")("test:app");
 const fs = require("fs");
 
 const Bex = require("bkmexpress");
@@ -32,7 +33,7 @@ const urlForNonce = urlBase + "/bkm/nonce";
 // Connection Token'ın Alınabilmesi için Gerekli Konfigürasyonun Yapılması
 const config = Bex.BexPayment.startBexPayment(Bex.Environment.SANDBOX, merchantId, privateKey);
 
-router.get('/', function (req, res, next) {
+router.get("/", function (req, res, next) {
     const merchantService = new Bex.MerchantService(config);
 
     // Connection Token'ın Alınması
@@ -44,7 +45,7 @@ router.get('/', function (req, res, next) {
                 .then(function (response2) {
 
                     // Ticket Token'ın Ön Yüze İletilmesi
-                    res.render('index', {
+                    res.render("index", {
                         // Client SDK url'ini kendiniz manuel girebilirsiniz
                         // ama bu sekilde de yaparsaniz, her ortam degisiklikligi
                         // yaptiginizda(Sandbox, Production) url'i degistirmenize gerek kalmadan ortam icin dogru url'i verir.
@@ -64,7 +65,7 @@ router.get('/', function (req, res, next) {
             next(err);
         });
 });
-router.post('/bkm/installments', function (req, res) {
+router.post("/bkm/installments", function (req, res) {
     // Endpoint'in Oluşturulması
     debug("Request from BKM", req.body);
 
@@ -168,7 +169,7 @@ function checkPayment(nonceRequest) {
         });
 }
 
-router.post('/bkm/nonce', function (req, res) {
+router.post("/bkm/nonce", function (req, res) {
     debug("nonce", {method: req.method, query: req.query, params: req.params, body: req.body});
     const response = new Bex.NonceReceivedResponse();
     if (req.body.id && req.body.path && req.body.issuer && req.body.approver && req.body.token && req.body.signature && req.body.reply) {
@@ -188,7 +189,7 @@ router.post('/bkm/nonce', function (req, res) {
         res.json(response);
     }
 });
-router.get('/result/:ticketPath', function (req, res) {
+router.get("/result/:ticketPath", function (req, res) {
     debug("nonce", {method: req.method, query: req.query, params: req.params, body: req.body});
     // Ödeme İşlemi Sorgulama Endpoint'i Örneği
     const merchantService = new Bex.MerchantService(config);
@@ -250,13 +251,18 @@ npm test
 
 ## Contributors
 We welcome contributions of all kinds from anyone. 
-* Author: [Tümay Çeber](https://github.com/brendtumi) [![](https://img.shields.io/gratipay/user/brendtumi.svg)](https://gratipay.com/brendtumi/)
+* Author: [Tümay Çeber](https://github.com/brendtumi) [![](https://img.shields.io/gratipay/user/brendtumi.svg?style=flat-square)](https://gratipay.com/brendtumi/)
 
 [v1-url]: https://github.com/brendtumi/bkmexpress/tree/1.x/README.md
 [bkm-url]: https://www.bkmexpress.com.tr
+
 [downloads-image]: http://img.shields.io/npm/dm/bkmexpress.svg?style=flat-square
+
 [npm-url]: https://npmjs.org/package/bkmexpress
 [npm-image]: https://img.shields.io/npm/v/bkmexpress.svg?style=flat-square
+
+[deps-url]: https://david-dm.org/brendtumi/bkmexpress
+[deps-image]: https://david-dm.org/brendtumi/bkmexpress.svg?style=flat-square
 
 [travis-url]: https://travis-ci.org/brendtumi/bkmexpress
 [travis-image]: http://img.shields.io/travis/brendtumi/bkmexpress.svg?style=flat-square
