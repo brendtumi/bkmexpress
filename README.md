@@ -67,8 +67,6 @@ router.get("/", function (req, res, next) {
 });
 router.post("/bkm/installments", function (req, res) {
     // Endpoint'in Oluşturulması
-    debug("Request from BKM", req.body);
-
     if (req.body.bin && req.body.totalAmount && req.body.ticketId && req.body.signature) {
 
         const request = new Bex.InstallmentRequest(req.body.bin, req.body.totalAmount, req.body.ticketId, req.body.signature);
@@ -84,14 +82,29 @@ router.post("/bkm/installments", function (req, res) {
                 let installmentsForThisBin = [];
 
                 // baska bankalar icin vpos hazirlama
+                switch (bankCode) {
+                    case Bex.Banks.ZIRAATBANK:
+                        // Eger istenilen banka icin pos'unuz mevcutsa
+                        vposConfig.BankIndicator = Bex.Banks.ZIRAATBANK;
+                        vposConfig.VposUserId = "bkmtest";
+                        vposConfig.VposPassword = "TEST1691";
+                        vposConfig.addExtra("ClientId", "190001691");
+                        vposConfig.addExtra("storekey", "TRPS1691");
+                        vposConfig.addExtra("orderId", "9073194");
+                        vposConfig.ServiceUrl = "http://srvirt01:7200/ziraat";
+                        break;
 
-                let vposConfig = new Bex.VposConfig();
-                vposConfig.BankIndicator = bankCode;
-                vposConfig.VposUserId = "akapi";
-                vposConfig.VposPassword = "TEST1234";
-                vposConfig.addExtra("ClientId", "100111222");
-                vposConfig.addExtra("storekey", "TEST1234");
-                vposConfig.ServiceUrl = "http://srvirt01:7200/akbank";
+                    case Bex.Banks.AKBANK:
+                    default:
+                        // Yoksa varsayılan bankanız
+                        vposConfig.BankIndicator = Bex.Banks.AKBANK;
+                        vposConfig.VposUserId = "akapi";
+                        vposConfig.VposPassword = "TEST1234";
+                        vposConfig.addExtra("ClientId", "100111222");
+                        vposConfig.addExtra("storekey", "TEST1234");
+                        vposConfig.ServiceUrl = "http://srvirt01:7200/akbank";
+                        break;
+                }
 
                 let installment = new Bex.Installment("1", Bex.MoneyUtils.toTRY(amount), Bex.MoneyUtils.toTRY(amount), Bex.EncryptionUtil.encryptWithBex(vposConfig));
                 installmentsForThisBin.push(installment);
@@ -102,13 +115,11 @@ router.post("/bkm/installments", function (req, res) {
             response.Installments = allInstallmentsForEveryBin;
             response.Status = "ok";
             response.Error = "";
-            debug("Response", JSON.stringify(response));
             res.json(response);
         }
         else {
             response.Status = "fail";
             response.Error = "signature verification failed";
-            debug("Response", JSON.stringify(response));
             res.json(response);
         }
     }
@@ -116,20 +127,17 @@ router.post("/bkm/installments", function (req, res) {
         const response = new Bex.InstallmentsResponse();
         response.Status = "fail";
         response.Error = "RequestBody fields cannot be null or signature verification failed";
-        debug("Response", JSON.stringify(response));
         res.json(response);
     }
 
 });
 
 function checkPayment(nonceRequest) {
-    debug("NonceRequest", nonceRequest);
     const merchantNonceResponse = new Bex.MerchantNonceResponse();
     const merchantService = new Bex.MerchantService(config);
     merchantService.login()
         .then(function (loginResponse) {
             if (Bex.EncryptionUtil.verifyBexSign(nonceRequest.TicketId, nonceRequest.Signature)) {
-                debug("verifyBexSign", "OK");
                 // İşlemin hala geçerliliğinin korunup, korumadığı kontrol edilir.
                 // ....
                 // basarili nonce cevabı
@@ -138,8 +146,6 @@ function checkPayment(nonceRequest) {
                 merchantNonceResponse.Nonce = nonceRequest.Token;
                 merchantNonceResponse.Id = nonceRequest.Path;
                 merchantNonceResponse.Message = "YOUR-MESSAGE-WILL-BE-STORED-IN-BKM";
-
-                debug("merchantNonceResponse", merchantNonceResponse);
 
                 merchantService.sendNonceResponse(loginResponse.Token, merchantNonceResponse)
                     .then(function (response) {
@@ -150,7 +156,6 @@ function checkPayment(nonceRequest) {
                     });
             }
             else {
-                debug("verifyBexSign", "FAIL");
                 merchantNonceResponse.Result = false;
                 merchantNonceResponse.Nonce = nonceRequest.Token;
                 merchantNonceResponse.Id = nonceRequest.Path;
@@ -170,14 +175,12 @@ function checkPayment(nonceRequest) {
 }
 
 router.post("/bkm/nonce", function (req, res) {
-    debug("nonce", {method: req.method, query: req.query, params: req.params, body: req.body});
     const response = new Bex.NonceReceivedResponse();
     if (req.body.id && req.body.path && req.body.issuer && req.body.approver && req.body.token && req.body.signature && req.body.reply) {
         // asenkron işlemden önce Nonce isteğinin başarılı olarak alındığı iletilmelidir.
         response.Result = "ok";
         response.Data = "ok";
         res.json(response);
-        debug("Nonce Response", JSON.stringify(response));
 
         const request = new Bex.NonceRequest(req.body.id, req.body.path, req.body.issuer, req.body.approver, req.body.token, req.body.signature, req.body.reply);
         // asenkron bir işlem ile işlem kontrolleri yapılmalıdır.
@@ -190,7 +193,6 @@ router.post("/bkm/nonce", function (req, res) {
     }
 });
 router.get("/result/:ticketPath", function (req, res) {
-    debug("nonce", {method: req.method, query: req.query, params: req.params, body: req.body});
     // Ödeme İşlemi Sorgulama Endpoint'i Örneği
     const merchantService = new Bex.MerchantService(config);
     merchantService.login()
