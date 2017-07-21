@@ -9,7 +9,7 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "tslint src/**/*.ts --config tslint.json --project tsconfig.json --fix",
+    "lint": "tslint src/{,**/}*.ts --config tslint.json --project tsconfig.json --fix",
     "tsc": "tsc",
     "build": "node_modules/.bin/rimraf lib && npm run tsc",
     "pretest": "npm run build",

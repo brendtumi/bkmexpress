@@ -5,8 +5,8 @@
  * @date 26.04.2017
  */
 
-import {PaymentResultResponse, PosData} from "../paymentResultResponse";
 import {RawBexResponse} from "../bexResponse";
+import {PaymentResultResponse, PosData} from "../paymentResultResponse";
 
 export class NonceResultResponse extends PaymentResultResponse {
     private error: string;
