@@ -10,6 +10,7 @@ export class Environment {
     public static DEV = "DEV";
     public static LOCAL = "LOCAL";
     public static SANDBOX = "SANDBOX";
+    public static PREPROD = "PREPROD";
     public static PRODUCTION = "PRODUCTION";
 }
 

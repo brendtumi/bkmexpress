@@ -2,6 +2,7 @@ export declare class Environment {
     static DEV: string;
     static LOCAL: string;
     static SANDBOX: string;
+    static PREPROD: string;
     static PRODUCTION: string;
 }
 export declare class Banks {

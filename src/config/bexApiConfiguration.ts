@@ -8,14 +8,16 @@ import {Environment} from "../enums";
 import {BexApiConfigurationException} from "../exceptions";
 
 export class BexApiConfiguration {
-    public static LOCAL_URL = "http://api.bex.dev/v1/";
+    public static LOCAL_URL = "http://api.bex.finartz/v1/";
     public static DEV_URL = "https://bex-api.finartz.com/v1/";
     public static SANDBOX_URL = "https://test-api.bkmexpress.com.tr/v1/";
+    public static PREPROD_URL = "https://preprod-api.bkmexpress.com.tr/v1/";
     public static PRODUCTION_URL = "https://api.bkmexpress.com.tr/v1/";
 
-    public static LOCAL_EXPRESS_JS_URL = "http://js.bex.dev/javascripts/bex.js";
+    public static LOCAL_EXPRESS_JS_URL = "http://js.bex.finartz/javascripts/bex.js";
     public static DEV_EXPRESS_JS_URL = "https://bex-js.finartz.com/v1/javascripts/bex.js";
     public static SANDBOX_EXPRESS_JS_URL = "https://test-js.bkmexpress.com.tr/v1/javascripts/bex.js";
+    public static PREPROD_EXPRESS_JS_URL = "https://preprod-js.bkmexpress.com.tr/v1/javascripts/bex.js";
     public static PRODUCTION_EXPRESS_JS_URL = "https://js.bkmexpress.com.tr/v1/javascripts/bex.js";
 
     private baseUrl: string;
@@ -33,6 +35,10 @@ export class BexApiConfiguration {
         else if (Environment.SANDBOX === environment) {
             this.baseUrl = BexApiConfiguration.SANDBOX_URL;
             this.baseJs = BexApiConfiguration.SANDBOX_EXPRESS_JS_URL;
+        }
+        else if (Environment.PREPROD === environment) {
+            this.baseUrl = BexApiConfiguration.PREPROD_URL;
+            this.baseJs = BexApiConfiguration.PREPROD_EXPRESS_JS_URL;
         }
         else if (Environment.PRODUCTION === environment) {
             this.baseUrl = BexApiConfiguration.PRODUCTION_URL;
