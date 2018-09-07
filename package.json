@@ -16,7 +16,8 @@
     "test": "make test",
     "preversion": "node_modules/.bin/rimraf src/**/*.js && npm run lint && npm test",
     "version": "git add -A lib",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "report": "nyc report --reporter=json > coverage/coverage.json"
   },
   "repository": {
     "type": "git",
@@ -60,12 +61,29 @@
     "@types/mocha": "^5.2.5",
     "chai": "3.5.x",
     "codecov": "^3.1.0",
+    "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
     "rimraf": "^2.6.2",
     "tslint": "^5.11.0",
     "typescript": "^3.0.3"
   },
   "engines": {
     "node": ">0.10.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "reporter": [
+      "text",
+      "lcov",
+      "html"
+    ],
+    "all": true
   }
 }

@@ -1,10 +1,15 @@
 language: node_js
+env:
+- CODECOV_TOKEN="4a0999c1-963e-44a7-a9bc-aabedd216843"
 node_js:
   - "0.10"
   - "0.12"
+  - "4"
   - "6"
   - "7"
   - "8"
   - "node"
 before_install:
 - npm install -g typescript tslint mocha codecov
+after_success:
+- codecov

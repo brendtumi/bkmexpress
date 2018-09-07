@@ -30,3 +30,4 @@ node_modules
 .idea
 src/**/*.js
 sample
+.nyc_output
