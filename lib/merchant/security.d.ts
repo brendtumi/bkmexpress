@@ -12,5 +12,5 @@ export declare class EncryptionUtil {
     static decode64(data: string): string;
     private static readonly PublicKey;
     private static publicKey;
-    private static bufferFromString(data, encoding?);
+    private static bufferFromString;
 }

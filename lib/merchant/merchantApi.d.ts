@@ -1,4 +1,3 @@
-/// <reference types="request" />
 import { CoreOptions } from "request";
 import { MerchantLoginRequest } from "./request/merchantLoginRequest";
 import { TicketRequest } from "./request/ticketRequest";

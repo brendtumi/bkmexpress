@@ -38,28 +38,32 @@
   },
   "homepage": "https://github.com/brendtumi/bkmexpress",
   "dependencies": {
-    "@types/bluebird": "^3.5.20",
+    "@types/bluebird": "^3.5.24",
     "@types/debug": "0.0.30",
-    "@types/lodash": "^4.14.104",
-    "@types/node": "^9.4.6",
-    "@types/request": "^2.47.0",
-    "@types/request-promise": "^4.1.41",
+    "@types/lodash": "^4.14.116",
+    "@types/node": "^9.6.31",
+    "@types/request": "^2.47.1",
+    "@types/request-promise": "^4.1.42",
     "@types/semver": "^5.5.0",
-    "@types/source-map-support": "^0.4.0",
-    "bluebird": "^3.5.1",
+    "@types/source-map-support": "^0.4.1",
+    "bluebird": "^3.5.2",
     "debug": "^3.1.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.10",
     "node-rsa": "^0.4.2",
-    "request": "2.81.0",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "semver": "^5.5.0",
-    "source-map-support": "^0.5.3"
+    "semver": "^5.5.1",
+    "source-map-support": "^0.5.9"
   },
   "devDependencies": {
-    "@types/chai": "3.5.x",
-    "@types/mocha": "^2.2.48",
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.5",
     "chai": "3.5.x",
-    "rimraf": "^2.6.2"
+    "codecov": "^3.1.0",
+    "mocha": "^5.2.0",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
   },
   "engines": {
     "node": ">0.10.0"
