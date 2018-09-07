@@ -1,4 +1,4 @@
-# BKM Express [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][deps-image]][deps-url]
+# BKM Express [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][deps-image]][deps-url] [![Coverage][codecov-image]][codecov-url]
 > [BKM Express](https://www.bkmexpress.com.tr) payment system sdk (Turkey) for Node.js 
 
 > *v1.x.x dokümantasyon için [Buraya tıklayınız][v1-url]*
