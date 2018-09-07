@@ -13,8 +13,8 @@
     "tsc": "tsc",
     "build": "node_modules/.bin/rimraf lib && npm run tsc",
     "pretest": "npm run build",
-    "test": "make test",
-    "preversion": "node_modules/.bin/rimraf src/**/*.js && npm run lint && npm test",
+    "test": "npm run lint && make test",
+    "preversion": "node_modules/.bin/rimraf src/**/*.js && npm test",
     "version": "git add -A lib",
     "postversion": "git push && git push --tags",
     "report": "nyc report --reporter=json > coverage/coverage.json"
@@ -73,10 +73,10 @@
   },
   "nyc": {
     "extension": [
-      ".ts",
-      ".tsx"
+      ".ts"
     ],
     "exclude": [
+      "coverage",
       "**/*.d.ts"
     ],
     "reporter": [
