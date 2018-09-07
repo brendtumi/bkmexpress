@@ -31,6 +31,9 @@
 *.ipr
 *.iws
 
+# Coverage directory used by tools like istanbul
+coverage
+
 ## Plugin-specific files:
 
 # IntelliJ
@@ -47,5 +50,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
+.idea
 src/**/*.js
 sample
+.nyc_output
+.git
