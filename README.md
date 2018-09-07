@@ -268,3 +268,6 @@ We welcome contributions of all kinds from anyone.
 
 [travis-url]: https://travis-ci.org/brendtumi/bkmexpress
 [travis-image]: http://img.shields.io/travis/brendtumi/bkmexpress.svg?style=flat-square
+
+[codecov-url]: https://codecov.io/gh/brendtumi/bkmexpress
+[codecov-image]: https://img.shields.io/codecov/c/github/brendtumi/bkmexpress.svg?style=flat-square
