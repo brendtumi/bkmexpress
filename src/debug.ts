@@ -11,8 +11,10 @@ const err = Debug("bkmexpress:error");
 const deb = Debug("bkmexpress:debug");
 const info = Debug("bkmexpress:info");
 
+// tslint:disable-next-line
 info.log = console.log.bind(console);
 // deb.log = console.debug.bind(console);
+// tslint:disable-next-line
 deb.log = console.log.bind(console);
 
 export class Log {
